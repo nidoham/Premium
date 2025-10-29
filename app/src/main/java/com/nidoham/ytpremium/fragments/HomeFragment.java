@@ -19,6 +19,7 @@ import com.nidoham.ytpremium.R;
 import com.nidoham.ytpremium.adapter.StreamsAdapter;
 import com.nidoham.ytpremium.databinding.FragmentHomeBinding;
 import com.nidoham.ytpremium.player.PlayerService;
+import com.nidoham.ytpremium.prompt.KioskList;
 import com.nidoham.ytpremium.util.Kiosk;
 
 import org.schabi.newpipe.extractor.InfoItem;
@@ -273,17 +274,17 @@ public class HomeFragment extends Fragment {
      */
     private String getSearchQuery(int position) {
         if (position == Kiosk.getCategoryPosition("all")) {
-            return "trending videos";
+            return KioskList.BANGLADESH_ALL_VIDEOS_QUERY;
         } else if (position == Kiosk.getCategoryPosition("gaming")) {
-            return "gaming videos";
+            return KioskList.BANGLADESH_GAMING_VIDEOS_QUERY;
         } else if (position == Kiosk.getCategoryPosition("sports")) {
-            return "sports highlights";
+            return KioskList.BANGLADESH_SHORTS_QUERY;
         } else if (position == Kiosk.getCategoryPosition("musics")) {
-            return "music videos";
+            return KioskList.BANGLADESH_MUSIC_VIDEOS_QUERY;
         } else if (position == Kiosk.getCategoryPosition("news")) {
-            return "news today";
+            return KioskList.BANGLADESH_NEWS_VIDEOS_QUERY;
         }
-        return "trending videos"; // Default
+        return "Bangladeshi trending videos"; // Default
     }
 
     /**
