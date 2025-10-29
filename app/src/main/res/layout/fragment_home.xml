@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:background="@color/youtube_background_black"
+     android:id="@+id/coordinator">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/youtube_background_black"
+        app:elevation="0dp">
+
+        <HorizontalScrollView
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:clipToPadding="false"
+             android:paddingStart="@dimen/spacing_standard"
+             android:scrollbars="none"
+             android:paddingEnd="@dimen/spacing_standard"
+             android:background="@color/youtube_background_black"
+             android:paddingBottom="@dimen/spacing_small"
+             android:id="@+id/hsv_categories"
+             android:paddingTop="@dimen/spacing_small">
+
+            <com.google.android.material.chip.ChipGroup
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 app:singleSelection="true"
+                 app:chipSpacing="@dimen/chip_spacing"
+                 app:selectionRequired="true"
+                 android:id="@+id/cg_categories">
+
+                <com.google.android.material.chip.Chip
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:checkable="true"
+                     app:chipIconTint="@android:color/white"
+                     app:checkedIconVisible="false"
+                     app:chipIconVisible="true"
+                     style="@style/Widget.App.Chip.Category"
+                     app:chipIcon="@drawable/ic_explore_24"
+                     app:iconStartPadding="10dp"
+                     app:chipStartPadding="10dp"
+                     android:id="@+id/chip_explore" />
+
+                <com.google.android.material.chip.Chip
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:checkable="true"
+                     app:checkedIconVisible="false"
+                     style="@style/Widget.App.Chip.Category"
+                     android:checked="true"
+                     android:id="@+id/chip_all"
+                     android:text="@string/category_all" />
+
+                <com.google.android.material.chip.Chip
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:checkable="true"
+                     app:checkedIconVisible="false"
+                     style="@style/Widget.App.Chip.Category"
+                     android:id="@+id/chip_gaming"
+                     android:text="@string/category_gaming" />
+
+                <com.google.android.material.chip.Chip
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:checkable="true"
+                     app:checkedIconVisible="false"
+                     style="@style/Widget.App.Chip.Category"
+                     android:id="@+id/chip_sports"
+                     android:text="@string/category_sports" />
+
+                <com.google.android.material.chip.Chip
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:checkable="true"
+                     app:checkedIconVisible="false"
+                     style="@style/Widget.App.Chip.Category"
+                     android:id="@+id/chip_music"
+                     android:text="@string/category_music" />
+
+                <com.google.android.material.chip.Chip
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:checkable="true"
+                     app:checkedIconVisible="false"
+                     style="@style/Widget.App.Chip.Category"
+                     android:id="@+id/chip_news"
+                     android:text="@string/category_news" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+        </HorizontalScrollView>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+         android:id="@+id/recycler_view"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:background="@color/youtube_background_black"
+         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

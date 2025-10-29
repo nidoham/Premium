@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Spacing -->
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_standard">12dp</dimen>
+    <dimen name="spacing_medium">16dp</dimen>
+    <dimen name="spacing_large">24dp</dimen>
+    <dimen name="spacing_xlarge">32dp</dimen>
+    
+    <!-- Logo Dimensions -->
+    <dimen name="logo_width">110dp</dimen>
+    <dimen name="logo_height">50dp</dimen>
+
+    <!-- Redius Dimensions -->
+    <dimen name="redius_tiny">4dp</dimen>
+    <dimen name="redius_small">8dp</dimen>
+    <dimen name="redius_standard">12dp</dimen>
+    <dimen name="redius_medium">16dp</dimen>
+    <dimen name="redius_xmedium">20dp</dimen>
+    <dimen name="redius_large">24dp</dimen>
+    <dimen name="redius_xlarge">32dp</dimen>
+    
+    <!-- Icon Sizes -->
+    <dimen name="icon_size_small">20dp</dimen>
+    <dimen name="icon_size_medium">24dp</dimen>
+    <dimen name="icon_size_large">32dp</dimen>
+    <dimen name="icon_size_xlarge">40dp</dimen>
+    <dimen name="icon_touch_target">48dp</dimen>
+    
+    <dimen name="icon_padding">10dp</dimen>
+    
+    <dimen name="icon_padding_tiny">6dp</dimen>
+    <dimen name="icon_padding_small">8dp</dimen>
+    <dimen name="icon_padding_standard">10dp</dimen>
+    <dimen name="icon_padding_medium">12dp</dimen>
+    <dimen name="icon_padding_large">14dp</dimen>
+    <dimen name="icon_padding_xlarge">16dp</dimen>
+    <dimen name="icon_padding_xxlarge">18dp</dimen>
+    
+    <!-- Bottom Navigation -->
+    <dimen name="bottom_nav_height">60dp</dimen>
+    <dimen name="bottom_nav_icon_size">26dp</dimen>
+    <dimen name="bottom_nav_icon_xsize">28dp</dimen>
+    
+    <!-- Notification Badge -->
+    <dimen name="badge_size">18dp</dimen>
+    <dimen name="badge_margin_top">6dp</dimen>
+    <dimen name="badge_margin_end">6dp</dimen>
+    
+    <!-- Chip Dimensions -->
+    <dimen name="chip_height">32dp</dimen>
+    <dimen name="chip_spacing">8dp</dimen>
+    <dimen name="chip_corner_radius">8dp</dimen>
+    
+    <!-- Text Sizes -->
+    <dimen name="text_size_tiny">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_body">14sp</dimen>
+    <dimen name="text_size_title">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_badge">9sp</dimen>
+    
+    <!-- Elevation -->
+    <dimen name="elevation_toolbar">4dp</dimen>
+    <dimen name="elevation_bottom_nav">8dp</dimen>
+    <dimen name="elevation_card">2dp</dimen>
+    
+    <!-- Video Card Dimensions -->
+    <dimen name="video_thumbnail_height">200dp</dimen>
+    <dimen name="video_thumbnail_corner_radius">12dp</dimen>
+    <dimen name="channel_avatar_size">36dp</dimen>
+    
+    <!-- Misc -->
+    <dimen name="corner_radius_small">4dp</dimen>
+    <dimen name="corner_radius_medium">8dp</dimen>
+    <dimen name="corner_radius_large">12dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+    
+    
+    <!-- PlayerActivity -->
+    <dimen name="icon_play_pause">75dp</dimen>
+    <dimen name="icon_play_option">48dp</dimen>
+    
+</resources>

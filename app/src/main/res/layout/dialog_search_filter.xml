@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:minWidth="280dp"
+    android:background="@drawable/bg_dialog_round"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="16dp">
+
+    <RadioGroup
+        android:id="@+id/filterGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- General YouTube Section -->
+        <RadioButton
+            android:id="@+id/filter_all"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="All"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:checked="true"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <RadioButton
+            android:id="@+id/filter_videos"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Videos"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <RadioButton
+            android:id="@+id/filter_channels"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Channels"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <RadioButton
+            android:id="@+id/filter_playlists"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Playlists"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+        <!-- YouTube Music Section Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="YouTube Music"
+            android:textColor="#4D4D4D"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            android:letterSpacing="0.1"/>
+
+        <!-- YouTube Music Options -->
+        <RadioButton
+            android:id="@+id/filter_songs"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Songs"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <RadioButton
+            android:id="@+id/filter_music_videos"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Videos"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <RadioButton
+            android:id="@+id/filter_albums"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Albums"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+
+        <RadioButton
+            android:id="@+id/filter_music_playlists"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Playlists"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:button="@null"
+            android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+            android:gravity="center_vertical"/>
+    </RadioGroup>
+</LinearLayout>

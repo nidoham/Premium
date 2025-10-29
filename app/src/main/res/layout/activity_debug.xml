@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/background"
+	android:gravity="center_vertical"
+	android:orientation="vertical"
+	android:padding="24dp"
+	tools:context=".ui.activities.DebugActivity">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginBottom="8dp"
+		android:gravity="center"
+		android:text="Application Error"
+		android:textColor="@color/error"
+		android:textSize="24sp"
+		android:textStyle="bold"/>
+
+	<androidx.cardview.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_marginBottom="24dp"
+		android:layout_weight="1"
+		app:cardBackgroundColor="@color/surface_variant"
+		app:cardCornerRadius="12dp"
+		app:cardElevation="4dp">
+
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:padding="16dp"
+			android:scrollbars="vertical">
+
+			<TextView
+				android:id="@+id/tv_crash_report"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:fontFamily="monospace"
+				android:lineSpacingExtra="2dp"
+				android:text="Loading error details..."
+				android:textColor="@color/on_surface_variant"
+				android:textIsSelectable="true"
+				android:textSize="12sp"/>
+
+		</ScrollView>
+
+	</androidx.cardview.widget.CardView>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"
+		android:weightSum="2">
+
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btn_send_report"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginEnd="8dp"
+			android:layout_weight="1"
+			android:minHeight="48dp"
+			android:text="Submit Report"
+			android:textColor="@color/on_error"
+			android:textSize="14sp"
+			android:textStyle="bold"
+			app:backgroundTint="@color/error"
+			app:cornerRadius="8dp"
+			app:elevation="2dp"/>
+
+		<com.google.android.material.button.MaterialButton
+			android:id="@+id/btn_copy_report"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:layout_marginStart="8dp"
+			android:layout_weight="1"
+			android:minHeight="48dp"
+			android:text="Copy to Clipboard"
+			android:textColor="@color/on_primary"
+			android:textSize="14sp"
+			android:textStyle="bold"
+			app:backgroundTint="@color/primary"
+			app:cornerRadius="8dp"
+			app:elevation="2dp"/>
+
+	</LinearLayout>
+
+	<com.google.android.material.button.MaterialButton
+		android:id="@+id/btn_restart_app"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="16dp"
+		android:minHeight="48dp"
+		android:text="Restart Application"
+		android:textColor="@color/on_success"
+		android:textSize="14sp"
+		android:textStyle="bold"
+		app:backgroundTint="@color/success"
+		app:cornerRadius="8dp"
+		app:elevation="2dp"/>
+
+</LinearLayout>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/icon_padding_medium"
+    android:background="?attr/selectableItemBackground"
+    android:gravity="center_vertical">
+
+    <!-- সার্চ আইকন -->
+    <ImageView
+        android:id="@+id/iconSearch"
+        android:layout_width="@dimen/icon_size_medium"
+        android:layout_height="@dimen/icon_size_medium"
+        android:src="@drawable/ic_search"
+        android:tint="@color/youtube_text_secondary"
+        android:contentDescription="@string/search" />
+
+    <!-- সাজেশন টেক্সট -->
+    <TextView
+        android:id="@+id/textSuggestion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:layout_marginStart="@dimen/icon_padding_medium"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="Sample Suggestion" />
+
+</LinearLayout>

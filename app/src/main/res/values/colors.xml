@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- YouTube Brand Colors -->
+    <color name="youtube_red">#FF0000</color>
+    <color name="youtube_red_dark">#CC0000</color>
+    
+    <!-- Background Colors -->
+    <color name="youtube_background_black">#0F0F0F</color>
+    <color name="youtube_background_dark_grey">#212121</color>
+    <color name="youtube_background_grey">#282828</color>
+    
+    <!-- Text Colors -->
+    <color name="youtube_white">#FFFFFF</color>
+    <color name="youtube_text_primary">#FFFFFF</color>
+    <color name="youtube_text_secondary">#AAAAAA</color>
+    <color name="youtube_text_tertiary">#717171</color>
+    
+    <!-- Icon Colors -->
+    <color name="youtube_icon_white">#FFFFFF</color>
+    <color name="youtube_icon_grey">#909090</color>
+    
+    <!-- Chip Colors -->
+    <color name="youtube_chip_background">#272727</color>
+    <color name="youtube_chip_selected">#F1F1F1</color>
+    <color name="youtube_chip_text">#FFFFFF</color>
+    <color name="youtube_chip_text_selected">#0F0F0F</color>
+    
+    <!-- Notification Badge -->
+    <color name="youtube_badge_red">#CC0000</color>
+    
+    <!-- Ripple Effect -->
+    <color name="youtube_ripple">#33FFFFFF</color>
+    
+    <!-- Divider -->
+    <color name="youtube_divider">#303030</color>
+    
+    <!-- Standard Material Colors -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+</resources>

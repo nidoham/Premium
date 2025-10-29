@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="3dp"
+    app:cardCornerRadius="16dp"
+    app:cardBackgroundColor="#1E1E1E">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- Channel Avatar with Badge -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/avatarContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/channel_avatar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:scaleType="centerCrop"
+                android:background="#424242"
+                app:strokeColor="#FFFFFF"
+                app:strokeWidth="2dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearanceOverlay="@style/CircularImageView"
+                tools:src="@tools:sample/avatars"
+                android:contentDescription="@string/channel_avatar"/>
+
+            <!-- Verified Badge (Optional) -->
+            <ImageView
+                android:id="@+id/verified_badge"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_verified"
+                android:background="@drawable/badge_background"
+                android:padding="2dp"
+                android:visibility="gone"
+                app:tint="#FFFFFF"
+                android:contentDescription="@string/verified_badge"
+                app:layout_constraintBottom_toBottomOf="@id/channel_avatar"
+                app:layout_constraintEnd_toEndOf="@id/channel_avatar"
+                tools:visibility="visible"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Channel Info Container -->
+        <LinearLayout
+            android:id="@+id/infoContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@id/avatarContainer"
+            app:layout_constraintBottom_toBottomOf="@id/avatarContainer"
+            app:layout_constraintStart_toEndOf="@id/avatarContainer"
+            app:layout_constraintEnd_toStartOf="@id/menuButton">
+
+            <!-- Channel Name -->
+            <TextView
+                android:id="@+id/channel_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
+                tools:text="Apisit Kerdtalod"/>
+
+            <!-- Channel Handle -->
+            <TextView
+                android:id="@+id/channel_handle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="13sp"
+                android:textColor="#B0B0B0"
+                tools:text="@apisitKerdtalod4711"/>
+
+            <!-- Subscriber Count -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_subscribers"
+                    app:tint="#B0B0B0"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:id="@+id/subscriber_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
+                    android:textColor="#B0B0B0"
+                    tools:text="22 subscribers"/>
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="3dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/dot_separator_white"/>
+
+                <ImageView
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:src="@drawable/ic_video_count"
+                    app:tint="#B0B0B0"
+                    android:contentDescription="@null"/>
+
+                <TextView
+                    android:id="@+id/video_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:textSize="12sp"
+                    android:textColor="#B0B0B0"
+                    tools:text="13 videos"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Menu Button -->
+        <ImageView
+            android:id="@+id/menuButton"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_more_vert"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            app:tint="#B0B0B0"
+            android:contentDescription="@string/more_options"
+            app:layout_constraintTop_toTopOf="@id/avatarContainer"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Buttons Container -->
+        <LinearLayout
+            android:id="@+id/buttonsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/avatarContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Subscribe Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/subscribe_button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                android:text="Subscribe"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:fontFamily="sans-serif-medium"
+                app:backgroundTint="#FFFFFF"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_subscribe"
+                app:iconTint="#000000"
+                app:iconSize="18dp"
+                app:iconPadding="4dp"
+                app:iconGravity="textStart"
+                android:stateListAnimator="@null"/>
+
+            <!-- View Channel Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/view_channel_button"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:layout_marginStart="6dp"
+                android:text="View Channel"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:fontFamily="sans-serif-medium"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                app:strokeColor="#555555"
+                app:strokeWidth="1.5dp"
+                app:cornerRadius="24dp"
+                app:elevation="0dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconTint="#FFFFFF"
+                app:iconSize="18dp"
+                app:iconPadding="4dp"
+                app:iconGravity="textEnd"
+                android:stateListAnimator="@null"/>
+
+        </LinearLayout>
+
+        <!-- Optional: Channel Description (Can be toggled) -->
+        <TextView
+            android:id="@+id/channel_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textSize="13sp"
+            android:textColor="#C0C0C0"
+            android:lineSpacingExtra="2dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/buttonsContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible"
+            tools:text="Welcome to my channel! Here you'll find amazing content about technology, coding, and more."/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><resources>
+
+    <!-- Add these colors to your existing colors.xml -->
+    <color name="placeholder_background">#999999</color>
+    <color name="placeholder_foreground">#6C6C6C</color>
+    
+    <!-- Queue item highlighting -->
+    <color name="queue_item_playing">#1A6200EE</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="defaultIconTint">#FFFFFF</color>
+
+    <color name="seed">#6750A4</color>
+
+    <!-- Primary Colors -->
+    <color name="primary">#00BCD4</color>
+    <color name="primary_dark">#0097A7</color>
+    <color name="primary_light">#B2EBF2</color>
+    <color name="primary_container">#004D5C</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="on_primary_container">#004D5C</color>
+
+    <!-- Secondary Colors -->
+    <color name="secondary">#FF6F00</color>
+    <color name="secondary_dark">#E65100</color>
+    <color name="secondary_light">#FFB74D</color>
+    <color name="secondary_container">#BF360C</color>
+    <color name="on_secondary">#FFFFFF</color>
+    <color name="on_secondary_container">#BF360C</color>
+
+    <!-- Tertiary Colors -->
+    <color name="tertiary">#7C4DFF</color>
+    <color name="tertiary_dark">#651FFF</color>
+    <color name="tertiary_light">#B39DDB</color>
+    <color name="tertiary_container">#4527A0</color>
+    <color name="on_tertiary">#FFFFFF</color>
+    <color name="on_tertiary_container">#4527A0</color>
+
+    <!-- Background & Surface -->
+    <color name="background">#FFFFFF</color>
+    <color name="on_background">#212121</color>
+    <color name="surface">#F5F5F5</color>
+    <color name="on_surface">#212121</color>
+    <color name="surface_variant">#EEEEEE</color>
+    <color name="on_surface_variant">#616161</color>
+    <color name="surface_dim">#EEEEEE</color>
+    <color name="surface_bright">#FFFFFF</color>
+
+    <!-- Outline & Divider -->
+    <color name="outline">#BDBDBD</color>
+    <color name="outline_variant">#E0E0E0</color>
+    <color name="scrim">#000000</color>
+
+    <!-- Semantic Colors -->
+    <color name="success">#4CAF50</color>
+    <color name="success_container">#C8E6C9</color>
+    <color name="on_success">#FFFFFF</color>
+
+    <color name="error">#F44336</color>
+    <color name="error_container">#FFCDD2</color>
+    <color name="on_error">#FFFFFF</color>
+
+    <color name="warning">#FF9800</color>
+    <color name="warning_container">#FFE0B2</color>
+    <color name="on_warning">#FFFFFF</color>
+
+    <color name="info">#2196F3</color>
+    <color name="info_container">#BBDEFB</color>
+    <color name="on_info">#FFFFFF</color>
+
+    <!-- Video-specific Colors -->
+    <color name="video_play_button">#FF6F00</color>
+    <color name="video_download_button">#7C4DFF</color>
+    <color name="video_favorite_button">#F44336</color>
+    <color name="video_share_button">#00BCD4</color>
+
+    <!-- Player Colors -->
+    <color name="player_background">#121212</color>
+    <color name="player_controls">#FFFFFF</color>
+    <color name="player_progress_bar">#00BCD4</color>
+    <color name="player_buffered">#80DEEA</color>
+
+    <!-- Download Colors -->
+    <color name="download_progress">#7C4DFF</color>
+    <color name="download_complete">#4CAF50</color>
+    <color name="download_failed">#F44336</color>
+
+    <!-- Subscription Colors -->
+    <color name="subscription_active">#00BCD4</color>
+    <color name="subscription_inactive">#9E9E9E</color>
+
+    <!-- History Colors -->
+    <color name="history_watched">#616161</color>
+    <color name="history_new">#FF6F00</color>
+</resources>

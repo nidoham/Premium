@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:background="@color/youtube_background_black"
+     android:fitsSystemWindows="true">
+
+    <com.google.android.material.appbar.MaterialToolbar
+         android:layout_height="?attr/actionBarSize"
+         android:layout_width="match_parent"
+         android:paddingEnd="@dimen/spacing_standard"
+         android:background="@color/youtube_background_black"
+         android:elevation="4dp"
+         app:layout_constraintTop_toTopOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         android:paddingStart="@dimen/spacing_standard"
+         android:id="@+id/toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+             android:layout_height="match_parent"
+             android:layout_width="match_parent">
+
+            <ImageView
+                 android:layout_height="@dimen/logo_height"
+                 android:layout_width="@dimen/logo_width"
+                 android:contentDescription="@string/content_description_youtube_logo"
+                 android:scaleType="centerCrop"
+                 android:src="@drawable/youtube_title"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintStart_toStartOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 android:id="@+id/iv_logo" />
+
+            <ImageButton
+                 android:layout_height="@dimen/icon_touch_target"
+                 android:layout_width="@dimen/icon_touch_target"
+                 android:layout_marginEnd="@dimen/spacing_tiny"
+                 android:src="@drawable/ic_cast_24"
+                 android:padding="@dimen/icon_padding_medium"
+                 app:layout_constraintEnd_toStartOf="@id/fl_notification"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 android:contentDescription="@string/content_description_cast"
+                 android:scaleType="fitCenter"
+                 android:background="?attr/selectableItemBackgroundBorderless"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:tint="@color/youtube_icon_white"
+                 android:id="@+id/btn_cast" />
+
+            <FrameLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:layout_marginEnd="@dimen/spacing_tiny"
+                 app:layout_constraintTop_toTopOf="parent"
+                 app:layout_constraintEnd_toStartOf="@id/btn_search"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 android:id="@+id/fl_notification">
+
+                <ImageButton
+                     android:layout_height="@dimen/icon_touch_target"
+                     android:layout_width="@dimen/icon_touch_target"
+                     android:contentDescription="@string/content_description_notifications"
+                     android:src="@drawable/ic_notifications_24"
+                     android:scaleType="fitCenter"
+                     android:background="?attr/selectableItemBackgroundBorderless"
+                     android:padding="@dimen/icon_padding_standard"
+                     app:tint="@color/youtube_icon_white"
+                     android:id="@+id/btn_notification" />
+
+                <TextView
+                     android:layout_height="@dimen/badge_size"
+                     android:layout_width="@dimen/badge_size"
+                     android:visibility="visible"
+                     android:layout_marginEnd="@dimen/badge_margin_end"
+                     android:textSize="@dimen/text_size_badge"
+                     android:textColor="@color/youtube_white"
+                     android:layout_marginTop="@dimen/badge_margin_top"
+                     android:layout_gravity="top|end"
+                     android:background="@drawable/bg_notification_badge"
+                     android:gravity="center"
+                     android:id="@+id/tv_badge"
+                     android:text="@string/notification_count_9_plus"
+                     android:textStyle="bold" />
+
+            </FrameLayout>
+
+            <ImageButton
+                 android:layout_height="@dimen/icon_touch_target"
+                 android:layout_width="@dimen/icon_touch_target"
+                 android:contentDescription="@string/content_description_search"
+                 android:src="@drawable/ic_search_24"
+                 android:scaleType="fitCenter"
+                 android:background="?attr/selectableItemBackgroundBorderless"
+                 app:layout_constraintTop_toTopOf="parent"
+                 android:padding="@dimen/icon_padding_standard"
+                 app:tint="@color/youtube_icon_white"
+                 app:layout_constraintEnd_toEndOf="parent"
+                 app:layout_constraintBottom_toBottomOf="parent"
+                 android:id="@+id/btn_search" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.appbar.MaterialToolbar>
+
+    <androidx.fragment.app.FragmentContainerView
+         android:layout_height="0dp"
+         android:layout_width="match_parent"
+         android:background="@color/youtube_background_black"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintBottom_toTopOf="@id/ll_bottom_nav"
+         app:layout_constraintTop_toBottomOf="@id/toolbar"
+         android:id="@+id/fragment_container" />
+
+    <LinearLayout
+         android:layout_height="@dimen/bottom_nav_height"
+         android:layout_width="match_parent"
+         android:background="@color/youtube_background_black"
+         android:elevation="8dp"
+         android:orientation="horizontal"
+         app:layout_constraintStart_toStartOf="parent"
+         android:paddingBottom="4dp"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintBottom_toBottomOf="parent"
+         android:id="@+id/ll_bottom_nav"
+         android:paddingTop="4dp">
+
+        <LinearLayout
+             android:layout_height="match_parent"
+             android:layout_width="0dp"
+             android:background="?attr/selectableItemBackgroundBorderless"
+             android:gravity="center"
+             android:clickable="true"
+             android:orientation="vertical"
+             android:paddingBottom="4dp"
+             android:layout_weight="1"
+             android:focusable="true"
+             android:id="@+id/nav_home"
+             android:paddingTop="4dp">
+
+            <ImageView
+                 android:layout_height="@dimen/bottom_nav_icon_size"
+                 android:layout_width="@dimen/bottom_nav_icon_size"
+                 android:contentDescription="@string/nav_home"
+                 android:src="@drawable/ic_home_24"
+                 app:tint="@color/youtube_white"
+                 android:id="@+id/nav_home_icon" />
+
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textSize="@dimen/text_size_small"
+                 android:fontFamily="sans-serif-medium"
+                 android:textColor="@color/youtube_white"
+                 android:layout_marginTop="2dp"
+                 android:maxLines="1"
+                 android:id="@+id/nav_home_label"
+                 android:text="@string/nav_home" />
+
+        </LinearLayout>
+
+        <LinearLayout
+             android:layout_height="match_parent"
+             android:layout_width="0dp"
+             android:background="?attr/selectableItemBackgroundBorderless"
+             android:gravity="center"
+             android:clickable="true"
+             android:orientation="vertical"
+             android:paddingBottom="4dp"
+             android:layout_weight="1"
+             android:focusable="true"
+             android:id="@+id/nav_shorts"
+             android:paddingTop="4dp">
+
+            <ImageView
+                 android:layout_height="@dimen/bottom_nav_icon_size"
+                 android:layout_width="@dimen/bottom_nav_icon_size"
+                 android:contentDescription="@string/nav_shorts"
+                 android:src="@drawable/ic_shorts_24"
+                 android:scaleType="centerCrop"
+                 app:tint="@color/youtube_text_secondary"
+                 android:id="@+id/nav_shorts_icon" />
+
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textSize="@dimen/text_size_small"
+                 android:fontFamily="sans-serif"
+                 android:textColor="@color/youtube_text_secondary"
+                 android:layout_marginTop="2dp"
+                 android:maxLines="1"
+                 android:id="@+id/nav_shorts_label"
+                 android:text="@string/nav_shorts" />
+
+        </LinearLayout>
+
+        <LinearLayout
+             android:layout_height="match_parent"
+             android:layout_width="0dp"
+             android:background="?attr/selectableItemBackgroundBorderless"
+             android:gravity="center"
+             android:clickable="true"
+             android:orientation="vertical"
+             android:paddingBottom="4dp"
+             android:layout_weight="1"
+             android:focusable="true"
+             android:id="@+id/nav_subscriptions"
+             android:paddingTop="4dp">
+
+            <ImageView
+                 android:layout_height="@dimen/bottom_nav_icon_size"
+                 android:layout_width="@dimen/bottom_nav_icon_size"
+                 android:contentDescription="@string/nav_subscriptions"
+                 android:src="@drawable/ic_subscriptions_24"
+                 app:tint="@color/youtube_text_secondary"
+                 android:id="@+id/nav_subscriptions_icon" />
+
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textSize="@dimen/text_size_small"
+                 android:fontFamily="sans-serif"
+                 android:textColor="@color/youtube_text_secondary"
+                 android:layout_marginTop="2dp"
+                 android:maxLines="1"
+                 android:id="@+id/nav_subscriptions_label"
+                 android:text="@string/nav_subscriptions" />
+
+        </LinearLayout>
+
+        <LinearLayout
+             android:layout_height="match_parent"
+             android:layout_width="0dp"
+             android:background="?attr/selectableItemBackgroundBorderless"
+             android:gravity="center"
+             android:clickable="true"
+             android:orientation="vertical"
+             android:paddingBottom="4dp"
+             android:layout_weight="1"
+             android:focusable="true"
+             android:id="@+id/nav_you"
+             android:paddingTop="4dp">
+
+            <ImageView
+                 android:layout_height="@dimen/bottom_nav_icon_xsize"
+                 android:layout_width="@dimen/bottom_nav_icon_xsize"
+                 android:scaleType="centerCrop"
+                 android:contentDescription="@string/nav_library"
+                 android:src="@drawable/baseline_account_circle_black_48dp"
+                 android:id="@+id/nav_you_icon" />
+
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textSize="@dimen/text_size_small"
+                 android:fontFamily="sans-serif"
+                 android:textColor="@color/youtube_text_secondary"
+                 android:layout_marginTop="2dp"
+                 android:maxLines="1"
+                 android:id="@+id/nav_you_label"
+                 android:text="@string/nav_library" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

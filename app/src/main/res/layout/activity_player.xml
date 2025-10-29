@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/youtube_background_black"
+    android:fitsSystemWindows="false">
+
+    <!-- Main Content Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Player Section with 16:9 aspect ratio -->
+        <FrameLayout
+            android:id="@+id/playerContainer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/youtube_background_black"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <include
+                android:id="@+id/playerSection"
+                layout="@layout/include_player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <!-- Minimized Player Preview (shown when scrolled down) -->
+            <FrameLayout
+                android:id="@+id/miniPlayerContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@color/youtube_background_black"
+                tools:visibility="gone">
+
+                <!-- Mini player thumbnail -->
+                <ImageView
+                    android:id="@+id/miniPlayerThumbnail"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@string/video_thumbnail" />
+
+                <!-- Mini player controls overlay -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingHorizontal="12dp"
+                    android:background="#80000000">
+
+                    <ImageButton
+                        android:id="@+id/miniPlayerPlayPause"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_play_arrow"
+                        android:contentDescription="@string/play_pause_button"
+                        app:tint="@color/youtube_icon_white" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_marginHorizontal="12dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/miniPlayerTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/youtube_text_primary"
+                            android:textSize="12sp"
+                            android:textStyle="bold"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            tools:text="Video Title" />
+
+                        <TextView
+                            android:id="@+id/miniPlayerChannel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/youtube_text_secondary"
+                            android:textSize="11sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"
+                            tools:text="Channel Name" />
+
+                    </LinearLayout>
+
+                    <ImageButton
+                        android:id="@+id/miniPlayerClose"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:src="@drawable/ic_close"
+                        android:contentDescription="@string/back_button"
+                        app:tint="@color/youtube_icon_white" />
+
+                </LinearLayout>
+
+            </FrameLayout>
+
+        </FrameLayout>
+
+        <!-- Content Scroll View -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/contentScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            android:scrollbars="vertical"
+            android:overScrollMode="ifContentScrolls"
+            app:layout_constraintTop_toBottomOf="@id/playerContainer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Video Metadata Section -->
+                <include
+                    android:id="@+id/videoMetadata"
+                    layout="@layout/include_metadata" />
+
+                <!-- Tabs for Comments/Related Videos -->
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/contentTabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/youtube_background_black"
+                    app:tabMode="fixed"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/youtube_white"
+                    app:tabSelectedTextColor="@color/youtube_text_primary"
+                    app:tabTextColor="@color/youtube_text_tertiary"
+                    app:tabIndicatorFullWidth="false"
+                    app:tabIndicatorHeight="2dp">
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Comments"
+                        tools:ignore="HardcodedText" />
+
+                    <com.google.android.material.tabs.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Up next"
+                        tools:ignore="HardcodedText" />
+
+                </com.google.android.material.tabs.TabLayout>
+
+                <!-- ViewPager2 for tab content -->
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/contentViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="400dp" />
+
+                <!-- Suggested Videos RecyclerView (alternative to ViewPager) -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/suggestedVideosRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="16dp"
+                    android:clipToPadding="false"
+                    android:visibility="gone"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_video_suggestion"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <!-- Loading overlay -->
+        <FrameLayout
+            android:id="@+id/loadingOverlay"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="#CC000000"
+            android:clickable="true"
+            android:focusable="true"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="gone">
+
+            <ProgressBar
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/youtube_red" />
+
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Bottom Sheet for Comments (Optional alternative UI) -->
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/commentsBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        tools:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/youtube_background_dark_grey">
+
+            <!-- Bottom sheet drag handle -->
+            <View
+                android:layout_width="40dp"
+                android:layout_height="4dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:background="@color/youtube_divider" />
+
+            <!-- Comments header -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Comments"
+                    android:textColor="@color/youtube_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    tools:ignore="HardcodedText" />
+
+                <ImageButton
+                    android:id="@+id/closeCommentsSheet"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_close"
+                    android:contentDescription="@string/back_button"
+                    app:tint="@color/youtube_icon_white" />
+
+            </LinearLayout>
+
+            <!-- Comments list -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/commentsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                tools:itemCount="10"
+                tools:listitem="@layout/item_comment" />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <!-- Mini Player Bottom Bar (Swipe to dismiss) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/miniPlayerBottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        android:background="@color/youtube_background_dark_grey"
+        android:elevation="8dp"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true"
+        tools:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/youtube_divider"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/bottomBarThumbnail"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/video_thumbnail"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:src="@tools:sample/backgrounds/scenic" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/bottomBarThumbnail"
+            app:layout_constraintEnd_toStartOf="@id/bottomBarPlayPause">
+
+            <TextView
+                android:id="@+id/bottomBarTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/youtube_text_primary"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Video Title Goes Here" />
+
+            <TextView
+                android:id="@+id/bottomBarChannel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/youtube_text_tertiary"
+                android:textSize="11sp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                tools:text="Channel Name" />
+
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/bottomBarPlayPause"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_play_arrow"
+            android:contentDescription="@string/play_pause_button"
+            app:tint="@color/youtube_icon_white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/bottomBarClose" />
+
+        <ImageButton
+            android:id="@+id/bottomBarClose"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_close"
+            android:contentDescription="@string/back_button"
+            app:tint="@color/youtube_icon_white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

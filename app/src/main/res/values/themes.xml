@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Application Theme -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/youtube_red</item>
+        <item name="colorPrimaryDark">@color/youtube_red_dark</item>
+        <item name="colorAccent">@color/youtube_red</item>
+        <item name="android:windowBackground">@color/youtube_background_black</item>
+        <item name="android:statusBarColor">@color/youtube_background_black</item>
+        <item name="android:navigationBarColor">@color/youtube_background_dark_grey</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <!-- Chip Styles -->
+    <style name="Widget.App.Chip.Category" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipMinHeight">32dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="chipCornerRadius">@dimen/chip_corner_radius</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="ensureMinTouchTargetSize">true</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!-- Bottom Navigation Text Appearance -->
+    <style name="TextAppearance.App.BottomNavigation" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">sans-serif</item>
+    </style>
+
+    <!-- Text Appearances -->
+    <style name="TextAppearance.YouTube.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textColor">@color/youtube_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="TextAppearance.YouTube.Subtitle" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/youtube_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.YouTube.Body" parent="TextAppearance.MaterialComponents.Body2">
+        <item name="android:textColor">@color/youtube_text_primary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <!-- Dialog Animation Style -->
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slide_down</item>
+    </style>
+
+    <style name="TextAppearance.YT.Caption" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:textColor">@color/youtube_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextAppearance.YT.Caption.Bold" parent="TextAppearance.YT.Caption">
+        <item name="android:textColor">@color/youtube_text_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+</resources>

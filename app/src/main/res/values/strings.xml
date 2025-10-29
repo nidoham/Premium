@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Premium</string>
+
+    <!-- Add these to strings.xml if you want proper labels -->
+    <string name="like">Like</string>
+    <string name="dislike">Dislike</string>
+    <string name="comments">Comments</string>
+    <string name="subscribed">Subscribed</string>
+    <string name="more">More</string>
+    <string name="show_more">Show more</string>
+
+    <string name="subscribe">Subscribe</string>
+
+    <!-- Content Descriptions -->
+    <string name="content_description_youtube_logo">YouTube</string>
+    <string name="content_description_cast">Cast to device</string>
+    <string name="content_description_notifications">Notifications</string>
+    <string name="content_description_search">Search</string>
+    <string name="content_description_menu">Menu</string>
+    <string name="content_description_more">More options</string>
+    <string name="content_description_channel_avatar">Channel avatar</string>
+    <string name="content_description_video_thumbnail">Video thumbnail</string>
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_shorts">Shorts</string>
+    <string name="nav_create">Create</string>
+    <string name="nav_subscriptions">Subscriptions</string>
+    <string name="nav_library">You</string>
+
+    <!-- Categories -->
+    <string name="category_all">All</string>
+    <string name="category_gaming">Gaming</string>
+    <string name="category_music">Music</string>
+    <string name="category_news">News</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_live">Live</string>
+    <string name="category_bangladesh_cricket">Bangladesh national cricket team</string>
+    <string name="category_recently_uploaded">Recently uploaded</string>
+    <string name="category_watched">Watched</string>
+    <string name="category_new_to_you">New to you</string>
+
+    <!-- Notification Badge -->
+    <string name="notification_count_9_plus">9+</string>
+
+    <!-- Video Info -->
+    <string name="video_views">%1$s views</string>
+    <string name="video_time_ago">%1$s ago</string>
+    <string name="video_duration">%1$s</string>
+
+    <!-- Shorts -->
+    <string name="shorts_title">Shorts</string>
+    <string name="shorts_views">%1$s views</string>
+
+    <!-- Actions -->
+    <string name="action_share">Share</string>
+    <string name="action_save">Save</string>
+    <string name="action_download">Download</string>
+    <string name="action_report">Report</string>
+    <string name="action_not_interested">Not interested</string>
+
+    <!-- Empty States -->
+    <string name="empty_no_videos">No videos available</string>
+    <string name="empty_no_results">No results found</string>
+
+    <!-- Error Messages -->
+    <string name="error_loading_failed">Failed to load content</string>
+    <string name="error_network">Check your internet connection</string>
+
+    <!-- Misc -->
+    <string name="empty" />
+    <string name="sponsored">Sponsored</string>
+    <string name="ad">Ad</string>
+    <string name="live">LIVE</string>
+    <string name="new_badge">New</string>
+    <string name="back">Back</string>
+    <string name="search_youtube">Search YouTube</string>
+</resources>
