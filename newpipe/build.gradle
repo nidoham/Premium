@@ -4,11 +4,11 @@ plugins {
 
 android {
     namespace "org.schabi.newpipe"
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         minSdk 26
-        targetSdk 33
+        targetSdk 35
 
         // Library তে সাধারণত versionCode ও versionName লাগে না, কিন্তু রাখলে ক্ষতি নেই
         versionCode 1

@@ -11,8 +11,13 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.media3.common.MediaItem;
 import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
+import androidx.media3.exoplayer.source.MediaSource;
+import androidx.media3.datasource.DefaultHttpDataSource;
+import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.ui.PlayerView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -58,11 +63,11 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
  * - অটো-প্লে এবং লুপিং
  * - পেজিনেশন সাপোর্ট
  * - RxJava 3 ভিত্তিক অ্যাসিঙ্ক ডেটা লোডিং
- * - Room ডাটাবেস দিয়ে ভিডিও হিস্টোরি ম্যানেজমেন্ট (কখনো ডুপ্লিকেট নয়)
+ * - Room ডাটাবেস দিয়ে ভিডিও হিস্টোরি ম্যানেজমেন্ট
  * - StreamManager দিয়ে নেটওয়ার্ক/ডিভাইস অনুযায়ী অটো কোয়ালিটি সিলেকশন
  * 
  * @author NI Doha Mondol
- * @version 2.4 (with StreamManager integration)
+ * @version 2.5 (Fixed stream selection and ExoPlayer setup)
  */
 public class ShortsFragment extends Fragment {
     private static final String TAG = "ShortsFragment";
@@ -83,6 +88,7 @@ public class ShortsFragment extends Fragment {
     private boolean isLoading = false;
     private boolean isInitialLoad = true;
     private int currentVideoIndex = 0;
+    private boolean isFragmentAlive = false;
 
     // Room Database
     private VideoHistoryDao historyDao;
@@ -94,6 +100,7 @@ public class ShortsFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentShortsBinding.inflate(inflater, container, false);
+        isFragmentAlive = true;
         return binding.getRoot();
     }
 
@@ -117,11 +124,13 @@ public class ShortsFragment extends Fragment {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     ids -> {
+                        if (!isFragmentAlive) return;
                         watchedVideoIds = ids;
                         Log.d(TAG, "Loaded " + watchedVideoIds.size() + " watched video IDs");
                         initializeAndFetch();
                     },
                     throwable -> {
+                        if (!isFragmentAlive) return;
                         Log.e(TAG, "Failed to load history", throwable);
                         initializeAndFetch();
                     }
@@ -144,14 +153,24 @@ public class ShortsFragment extends Fragment {
     }
 
     private void initializePlayer() {
-        exoPlayer = new ExoPlayer.Builder(requireContext()).build();
+        // Create DataSource.Factory for network requests
+        DefaultHttpDataSource.Factory dataSourceFactory = 
+            new DefaultHttpDataSource.Factory()
+                .setUserAgent("Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36");
+
+        exoPlayer = new ExoPlayer.Builder(requireContext())
+            .setMediaSourceFactory(new DefaultMediaSourceFactory(dataSourceFactory))
+            .build();
+            
         exoPlayer.setRepeatMode(Player.REPEAT_MODE_ONE);
 
         exoPlayer.addListener(new Player.Listener() {
             @Override
             public void onPlayerError(@NonNull androidx.media3.common.PlaybackException error) {
-                Log.e(TAG, "Player error: " + error.getMessage());
-                Toast.makeText(requireContext(), "প্লেয়ার এরর। পরবর্তী ভিডিওতে যান।", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "Player error: " + error.getMessage(), error);
+                if (isFragmentAlive && getContext() != null) {
+                    Toast.makeText(getContext(), "প্লেয়ার এরর। পরবর্তী ভিডিওতে যান।", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -176,6 +195,8 @@ public class ShortsFragment extends Fragment {
                 Log.d(TAG, "Page selected: " + position + " / " + videoList.size());
 
                 binding.videoPager.post(() -> {
+                    if (!isFragmentAlive) return;
+                    
                     PlayerView playerView = findPlayerViewAtPosition(position);
                     if (playerView != null) {
                         Log.d(TAG, "Playing video at position: " + position);
@@ -216,8 +237,8 @@ public class ShortsFragment extends Fragment {
     }
 
     private void fetchShortsVideos() {
-        if (isLoading) {
-            Log.d(TAG, "Already loading, skipping fetch");
+        if (isLoading || !isFragmentAlive) {
+            Log.d(TAG, "Already loading or fragment destroyed, skipping fetch");
             return;
         }
 
@@ -243,6 +264,8 @@ public class ShortsFragment extends Fragment {
     }
 
     private void handleSearchSuccess(SearchInfo searchInfo) {
+        if (!isFragmentAlive) return;
+        
         Log.d(TAG, "Search successful, processing results...");
         currentSearchInfo = searchInfo;
 
@@ -252,7 +275,9 @@ public class ShortsFragment extends Fragment {
         if (shortVideos.isEmpty()) {
             isLoading = false;
             showLoading(false);
-            Toast.makeText(requireContext(), "কোনো নতুন শর্ট ভিডিও পাওয়া যায়নি", Toast.LENGTH_SHORT).show();
+            if (getContext() != null) {
+                Toast.makeText(getContext(), "কোনো নতুন শর্ট ভিডিও পাওয়া যায়নি", Toast.LENGTH_SHORT).show();
+            }
             return;
         }
 
@@ -293,17 +318,15 @@ public class ShortsFragment extends Fragment {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                         streamInfo -> {
+                            if (!isFragmentAlive) return;
+                            
                             processedCount.incrementAndGet();
 
-                            String videoUrl = extractBestVideoUrl(streamInfo);
+                            // Use the new factory method to create Video
+                            int maxResolution = streamManager.getOptimalQualityForNetwork();
+                            Video video = Video.from(streamInfo, maxResolution);
 
-                            if (videoUrl != null && !videoUrl.isEmpty()) {
-                                Video video = new Video(
-                                    videoUrl,
-                                    streamInfo.getName(),
-                                    streamInfo.getUploaderName()
-                                );
-
+                            if (video != null && video.isValid()) {
                                 videoList.add(video);
                                 streamInfoItems.add(streamItem);
                                 successCount.incrementAndGet();
@@ -317,6 +340,7 @@ public class ShortsFragment extends Fragment {
                                     showLoading(false);
 
                                     binding.videoPager.post(() -> {
+                                        if (!isFragmentAlive) return;
                                         PlayerView firstPlayerView = findPlayerViewAtPosition(0);
                                         if (firstPlayerView != null) {
                                             Log.d(TAG, "Playing first video");
@@ -334,14 +358,16 @@ public class ShortsFragment extends Fragment {
                                 showLoading(false);
                                 Log.d(TAG, "All videos processed. Success: " + successCount.get() + "/" + streamItems.size());
 
-                                if (successCount.get() == 0) {
-                                    Toast.makeText(requireContext(),
+                                if (successCount.get() == 0 && getContext() != null) {
+                                    Toast.makeText(getContext(),
                                         "ভিডিও URL এক্সট্র্যাক্ট করতে ব্যর্থ",
                                         Toast.LENGTH_SHORT).show();
                                 }
                             }
                         },
                         throwable -> {
+                            if (!isFragmentAlive) return;
+                            
                             processedCount.incrementAndGet();
                             Log.e(TAG, "Error extracting video info for: " + streamItem.getName(), throwable);
 
@@ -349,8 +375,8 @@ public class ShortsFragment extends Fragment {
                                 isLoading = false;
                                 showLoading(false);
 
-                                if (successCount.get() == 0) {
-                                    Toast.makeText(requireContext(),
+                                if (successCount.get() == 0 && getContext() != null) {
+                                    Toast.makeText(getContext(),
                                         "ভিডিও লোড করতে ব্যর্থ",
                                         Toast.LENGTH_LONG).show();
                                 }
@@ -361,59 +387,44 @@ public class ShortsFragment extends Fragment {
         }
     }
 
-    private String extractBestVideoUrl(StreamInfo streamInfo) {
-        // 1. HLS চেক করুন (সবচেয়ে ভালো, অডিও+ভিডিও একসাথে)
-        String hlsUrl = streamInfo.getHlsUrl();
-        if (hlsUrl != null && !hlsUrl.isEmpty()) {
-            Log.d(TAG, "Using HLS stream (adaptive, includes audio)");
-            return hlsUrl;
-        }
-
-        // 2. নেটওয়ার্ক ও ডিভাইস অনুযায়ী অপটিমাল রেজোলিউশন পান
-        int maxResolution = streamManager.getOptimalQualityForNetwork();
-
-        // 3. ভিডিও স্ট্রিম সিলেক্ট করুন (শুধুমাত্র combined streams)
-        VideoStream bestVideo = streamManager.selectVideoQuality(streamInfo.getVideoStreams(), maxResolution);
-        if (bestVideo != null) {
-            return bestVideo.getUrl();
-        }
-
-        // 4. যদি শুধুমাত্র ভিডিও-ওনলি স্ট্রিম থাকে, তবে অডিও আলাদা করে মার্জ করা লাগবে — কিন্তু ExoPlayer এটা সাপোর্ট করে না সরাসরি
-        // তাই এখানে আমরা শুধুমাত্র অডিও+ভিডিও স্ট্রিম নেব
-        Log.w(TAG, "No combined audio+video stream found. Skipping...");
-        return null;
-    }
-
     private void logAvailableStreams(StreamInfo streamInfo) {
         Log.d(TAG, "=== Available Streams for: " + streamInfo.getName() + " ===");
         Log.d(TAG, "HLS URL: " + (streamInfo.getHlsUrl() != null ? "Available" : "Not available"));
 
         List<VideoStream> videoStreams = streamInfo.getVideoStreams();
-        Log.d(TAG, "Video streams (with audio): " + (videoStreams != null ? videoStreams.size() : 0));
+        Log.d(TAG, "Video streams (combined): " + (videoStreams != null ? videoStreams.size() : 0));
         if (videoStreams != null) {
-            for (int i = 0; i < Math.min(3, videoStreams.size()); i++) {
+            for (int i = 0; i < Math.min(5, videoStreams.size()); i++) {
                 VideoStream stream = videoStreams.get(i);
-                Log.d(TAG, "  - " + stream.getResolution() + " " + stream.getFormat());
+                Log.d(TAG, "  - " + stream.getResolution() + " " + stream.getFormat() + 
+                     " (video-only: " + stream.isVideoOnly() + ")");
             }
         }
 
-        Log.d(TAG, "Video-only streams: " + (streamInfo.getVideoOnlyStreams() != null ? streamInfo.getVideoOnlyStreams().size() : 0));
-        Log.d(TAG, "Audio streams: " + (streamInfo.getAudioStreams() != null ? streamInfo.getAudioStreams().size() : 0));
-        Log.d(TAG, "Optimal resolution for current network: " + streamManager.getOptimalQualityForNetwork() + "p");
+        Log.d(TAG, "Video-only streams: " + (streamInfo.getVideoOnlyStreams() != null ? 
+            streamInfo.getVideoOnlyStreams().size() : 0));
+        Log.d(TAG, "Audio streams: " + (streamInfo.getAudioStreams() != null ? 
+            streamInfo.getAudioStreams().size() : 0));
+        Log.d(TAG, "Optimal resolution for current network: " + 
+            streamManager.getOptimalQualityForNetwork() + "p");
         Log.d(TAG, "=====================================");
     }
 
     private void handleSearchError(Throwable throwable) {
+        if (!isFragmentAlive) return;
+        
         isLoading = false;
         showLoading(false);
         Log.e(TAG, "Search error", throwable);
 
-        String errorMessage = "শর্ট ভিডিও লোড করতে ব্যর্থ: " + throwable.getMessage();
-        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show();
+        if (getContext() != null) {
+            String errorMessage = "শর্ট ভিডিও লোড করতে ব্যর্থ: " + throwable.getMessage();
+            Toast.makeText(getContext(), errorMessage, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void loadMoreVideos() {
-        if (currentSearchInfo == null || !currentSearchInfo.hasNextPage() || isLoading) {
+        if (currentSearchInfo == null || !currentSearchInfo.hasNextPage() || isLoading || !isFragmentAlive) {
             Log.d(TAG, "Cannot load more: hasNextPage=" +
                   (currentSearchInfo != null && currentSearchInfo.hasNextPage()) +
                   ", isLoading=" + isLoading);
@@ -435,6 +446,8 @@ public class ShortsFragment extends Fragment {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 infoItemsPage -> {
+                    if (!isFragmentAlive) return;
+                    
                     Log.d(TAG, "Got more items: " + infoItemsPage.getItems().size());
 
                     List<StreamInfoItem> shortVideos = filterShortVideos(infoItemsPage.getItems());
@@ -450,16 +463,20 @@ public class ShortsFragment extends Fragment {
                     }
                 },
                 throwable -> {
+                    if (!isFragmentAlive) return;
+                    
                     isLoading = false;
                     Log.e(TAG, "Load more error", throwable);
-                    Toast.makeText(requireContext(), "আরো ভিডিও লোড করতে ব্যর্থ", Toast.LENGTH_SHORT).show();
+                    if (getContext() != null) {
+                        Toast.makeText(getContext(), "আরো ভিডিও লোড করতে ব্যর্থ", Toast.LENGTH_SHORT).show();
+                    }
                 }
             )
         );
     }
 
     private void playWithNewPipePlayer() {
-        if (currentVideoIndex >= streamInfoItems.size()) {
+        if (currentVideoIndex >= streamInfoItems.size() || !isFragmentAlive) {
             return;
         }
 
@@ -475,9 +492,11 @@ public class ShortsFragment extends Fragment {
             startActivity(intent);
         } catch (Exception e) {
             Log.e(TAG, "Error opening PlayerActivity", e);
-            Snackbar.make(binding.getRoot(),
-                "ভিডিও চালানো যাচ্ছে না: " + e.getMessage(),
-                Snackbar.LENGTH_LONG).show();
+            if (isFragmentAlive) {
+                Snackbar.make(binding.getRoot(),
+                    "ভিডিও চালানো যাচ্ছে না: " + e.getMessage(),
+                    Snackbar.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -497,9 +516,15 @@ public class ShortsFragment extends Fragment {
         if (url == null) return null;
         try {
             if (url.contains("youtube.com/watch")) {
-                return url.split("v=")[1].split("&")[0];
+                String[] parts = url.split("v=");
+                if (parts.length > 1) {
+                    return parts[1].split("&")[0];
+                }
             } else if (url.contains("youtu.be/")) {
-                return url.substring(url.lastIndexOf('/') + 1);
+                String[] parts = url.split("youtu.be/");
+                if (parts.length > 1) {
+                    return parts[1].split("\\?")[0];
+                }
             }
         } catch (Exception e) {
             Log.e(TAG, "Failed to extract video ID from: " + url, e);
@@ -508,7 +533,7 @@ public class ShortsFragment extends Fragment {
     }
 
     private void showLoading(boolean show) {
-        if (binding != null) {
+        if (binding != null && isFragmentAlive) {
             binding.videoPager.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
@@ -534,6 +559,8 @@ public class ShortsFragment extends Fragment {
         super.onDestroyView();
 
         Log.d(TAG, "onDestroyView called");
+        
+        isFragmentAlive = false;
 
         if (compositeDisposable != null && !compositeDisposable.isDisposed()) {
             compositeDisposable.dispose();
