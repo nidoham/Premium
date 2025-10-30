@@ -2,7 +2,42 @@
 plugins {
     id 'com.android.application' version '8.11.0' apply false
     id 'com.android.library' version '8.11.0' apply false
-         
+}
+
+ext {
+    versions = [
+        // AndroidX
+        appcompat           : '1.7.1',
+        material            : '1.12.0',
+        constraint          : '2.2.1',
+        preference          : '1.2.1',
+        media               : '1.7.1',
+        
+        // Media3 / ExoPlayer
+        media3              : '1.8.0',
+        
+        // Room Database
+        room                : '2.6.1',
+        
+        // Glide
+        glide               : '4.16.0',
+        
+        // Networking
+        okhttp              : '4.12.0',
+        
+        // Reactive Programming
+        rxjava              : '3.1.8',
+        rxandroid           : '3.0.2',
+        
+        // Video Extraction
+        newpipeExtractor    : 'v0.24.8',
+        
+        // Utilities
+        prettytime          : '5.0.8.Final',
+        
+        // Desugaring
+        desugar             : '2.0.4',
+    ]
 }
 
 task clean(type: Delete) {

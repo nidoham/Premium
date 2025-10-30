@@ -41,60 +41,63 @@ dependencies {
     //*---------------------------------------------------*//
     //----------------desugar_jdk_libs_nio-----------------//
     //*---------------------------------------------------*//
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.0.4'
+    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs_nio:${versions.desugar}"
 
     //*---------------------------------------------------*//
     //----------------------Androidx-----------------------//
     //*---------------------------------------------------*//
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.appcompat:appcompat:1.7.1")
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+    implementation "androidx.appcompat:appcompat:${versions.appcompat}"
+    implementation "com.google.android.material:material:${versions.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${versions.constraint}"
     
     //*---------------------------------------------------*//
     //*---------VIDEO PLAYER (Media3 / ExoPlayer)----------//
     //*---------------------------------------------------*//
-    implementation "androidx.media3:media3-exoplayer:1.8.0"
-    implementation "androidx.media3:media3-exoplayer-dash:1.8.0"
-    implementation "androidx.media3:media3-exoplayer-hls:1.8.0"
-    implementation "androidx.media3:media3-datasource-okhttp:1.8.0"
-    implementation "androidx.media3:media3-ui:1.8.0"
-    implementation "androidx.media3:media3-session:1.8.0"   // ✅ Missing dependency added
-    implementation "androidx.media:media:1.7.1"
+    implementation "androidx.media3:media3-exoplayer:${versions.media3}"
+    implementation "androidx.media3:media3-exoplayer-dash:${versions.media3}"
+    implementation "androidx.media3:media3-exoplayer-hls:${versions.media3}"
+    implementation "androidx.media3:media3-datasource-okhttp:${versions.media3}"
+    implementation "androidx.media3:media3-ui:${versions.media3}"
+    implementation "androidx.media3:media3-session:${versions.media3}"
+    implementation "androidx.media:media:${versions.media}"
     
     //*---------------------------------------------------*//
     //*-------------VIDEO EXTRACTION (NewPipe)-------------//
     //*---------------------------------------------------*//
-    implementation 'com.github.TeamNewPipe:NewPipeExtractor:v0.24.8'
+    implementation "com.github.TeamNewPipe:NewPipeExtractor:${versions.newpipeExtractor}"
     
     //*---------------------------------------------------*//
     //*------------OKHTTP Request & Networking-------------//
     //*---------------------------------------------------*//
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+    implementation "com.squareup.okhttp3:okhttp:${versions.okhttp}"
     
     //*---------------------------------------------------*//
     //*-----------RXJAVA3 Callback & Management------------//
     //*---------------------------------------------------*//
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.8'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    implementation "io.reactivex.rxjava3:rxjava:${versions.rxjava}"
+    implementation "io.reactivex.rxjava3:rxandroid:${versions.rxandroid}"
     
     //*---------------------------------------------------*//
     //*--------------Glide for Image Loading---------------//
     //*---------------------------------------------------*//
-    def glide_version = '4.16.0'
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    implementation "com.github.bumptech.glide:okhttp3-integration:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+    implementation "com.github.bumptech.glide:glide:${versions.glide}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:${versions.glide}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${versions.glide}"
     
     //*---------------------------------------------------*//
     //*---------------Time Managment & Utils---------------//
     //*---------------------------------------------------*//
-    implementation 'org.ocpsoft.prettytime:prettytime:5.0.8.Final'
+    implementation "org.ocpsoft.prettytime:prettytime:${versions.prettytime}"
     
-    def room_version = "2.6.1"
-    implementation "androidx.room:room-runtime:$room_version"
-    annotationProcessor "androidx.room:room-compiler:$room_version"
-    testImplementation "androidx.room:room-testing:$room_version"
+    //*---------------------------------------------------*//
+    //*-------------------Room Database---------------------//
+    //*---------------------------------------------------*//
+    implementation "androidx.room:room-runtime:${versions.room}"
+    annotationProcessor "androidx.room:room-compiler:${versions.room}"
+    testImplementation "androidx.room:room-testing:${versions.room}"
     
-    
+    //*---------------------------------------------------*//
+    //*------------------NewPipe Module---------------------//
+    //*---------------------------------------------------*//
     implementation project(':newpipe')
 }
