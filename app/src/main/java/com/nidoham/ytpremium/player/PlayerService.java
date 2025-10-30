@@ -20,35 +20,25 @@ import androidx.media3.common.MediaItem;
 import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.PlaybackException;
 import androidx.media3.common.Player;
-import androidx.media3.common.Tracks;
-import androidx.media3.common.VideoSize;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.datasource.DefaultDataSource;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory;
-import androidx.media3.exoplayer.source.MediaSource;
 import androidx.media3.exoplayer.trackselection.DefaultTrackSelector;
 import androidx.media3.session.MediaSession;
 import androidx.media3.session.MediaSessionService;
-import androidx.media3.session.SessionCommand;
-import androidx.media3.session.SessionResult;
 
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.nidoham.ytpremium.PlayerActivity;
 import com.nidoham.ytpremium.R;
 
 import org.schabi.newpipe.extractor.ExtractorHelper;
 import org.schabi.newpipe.extractor.stream.AudioStream;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
-import org.schabi.newpipe.extractor.stream.StreamType;
 import org.schabi.newpipe.extractor.stream.VideoStream;
 import org.schabi.newpipe.queue.PlayQueue;
 import org.schabi.newpipe.queue.PlayQueueItem;
-import org.schabi.newpipe.util.StreamTypeUtil;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,47 +51,46 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 @UnstableApi
 public class PlayerService extends MediaSessionService {
     private static final String TAG = "PlayerService";
-    // Notification
     private static final String CHANNEL_ID = "youtube_player_channel";
     private static final int NOTIFICATION_ID = 1001;
-    // Custom commands
-    private static final String COMMAND_TOGGLE_SPEED = "TOGGLE_SPEED";
-    private static final String COMMAND_SEEK_FORWARD = "SEEK_FORWARD";
-    private static final String COMMAND_SEEK_BACKWARD = "SEEK_BACKWARD";
-    private static final String COMMAND_NEXT = "NEXT";
-    private static final String COMMAND_PREVIOUS = "PREVIOUS";
-    private static final String COMMAND_TOGGLE_SHUFFLE = "TOGGLE_SHUFFLE";
-    private static final String COMMAND_TOGGLE_REPEAT = "TOGGLE_REPEAT";
-    // Playback configuration
-    private static final long SEEK_INCREMENT_MS = 10000L;
-    private static final float[] SPEED_OPTIONS = {0.25f, 0.5f, 0.75f, 1.0f, 1.25f, 1.5f, 1.75f, 2.0f};
-    private static final int DEFAULT_SPEED_INDEX = 3; // 1.0x
-    private static final int PRELOAD_AHEAD_COUNT = 2;
-    private static final int MAX_VIDEO_HEIGHT = 1080;
+
+    // Broadcast Actions
+    public static final String ACTION_PREV = "com.nidoham.ytpremium.action.PREV";
+    public static final String ACTION_PLAY_PAUSE = "com.nidoham.ytpremium.action.PLAY_PAUSE";
+    public static final String ACTION_NEXT = "com.nidoham.ytpremium.action.NEXT";
+    public static final String ACTION_QUALITY = "com.nidoham.ytpremium.action.QUALITY";
+    public static final String ACTION_SEEK_BACK = "com.nidoham.ytpremium.action.SEEK_BACK";
+    public static final String ACTION_SEEK_FORWARD = "com.nidoham.ytpremium.action.SEEK_FORWARD";
+
     // Intent extras
     public static final String EXTRA_PLAY_QUEUE = "EXTRA_PLAY_QUEUE";
     public static final String EXTRA_START_INDEX = "EXTRA_START_INDEX";
-    public static final String EXTRA_VIDEO_URL = "EXTRA_VIDEO_URL";
-    public static final String EXTRA_START_POSITION = "EXTRA_START_POSITION";
-    // Media components
+
+    // Playback config
+    private static final int PRELOAD_AHEAD_COUNT = 2;
+    private static final int MAX_VIDEO_HEIGHT = 1080;
+
+    // Components
     private ExoPlayer player;
     private MediaSession mediaSession;
     private DefaultTrackSelector trackSelector;
     private DefaultDataSource.Factory dataSourceFactory;
-    // Queue management
+
+    // Queue
     private PlayQueue playQueue;
     private PlayQueueItem currentItem;
     private StreamInfo currentStreamInfo;
-    // Callbacks
+
+    // Callback
     private StreamInfoCallback streamInfoCallback;
-    // State management
+
+    // State
     private final AtomicBoolean isLoadingStream = new AtomicBoolean(false);
     private final AtomicBoolean isServiceInitialized = new AtomicBoolean(false);
-    private int currentSpeedIndex = DEFAULT_SPEED_INDEX;
-    // Resource management
+
+    // Resources
     private final CompositeDisposable disposables = new CompositeDisposable();
     private final ExecutorService preloadExecutor = Executors.newSingleThreadExecutor();
-    // Binder for activity binding
     private final IBinder binder = new LocalBinder();
 
     public class LocalBinder extends Binder {
@@ -163,11 +152,11 @@ public class PlayerService extends MediaSessionService {
                 stopSelf();
             }
         } else {
-            Log.w(TAG, "[START] No queue provided - waiting for queue initialization");
+            Log.w(TAG, "[START] No queue provided");
         }
         return START_STICKY;
     }
-    
+
     @Override
     public void onDestroy() {
         Log.d(TAG, "[DESTROY] Service destroying");
@@ -197,14 +186,14 @@ public class PlayerService extends MediaSessionService {
         }
         super.onDestroy();
     }
-    
+
     private void initializeComponents() {
         Log.d(TAG, "[INIT] Initializing components");
         dataSourceFactory = new DefaultDataSource.Factory(this);
         initializePlayer();
         initializeMediaSession();
     }
-    
+
     private void initializePlayer() {
         Log.d(TAG, "[PLAYER] Initializing ExoPlayer");
         trackSelector = new DefaultTrackSelector(this);
@@ -221,7 +210,7 @@ public class PlayerService extends MediaSessionService {
             .setUsage(C.USAGE_MEDIA)
             .setContentType(C.AUDIO_CONTENT_TYPE_MOVIE)
             .build();
-            
+
         player = new ExoPlayer.Builder(this)
             .setTrackSelector(trackSelector)
             .setMediaSourceFactory(mediaSourceFactory)
@@ -229,7 +218,7 @@ public class PlayerService extends MediaSessionService {
             .setHandleAudioBecomingNoisy(true)
             .setWakeMode(C.WAKE_MODE_NETWORK)
             .build();
-            
+
         player.addListener(new PlayerEventListener());
         player.setRepeatMode(Player.REPEAT_MODE_OFF);
         Log.d(TAG, "[PLAYER] ✓ ExoPlayer initialized");
@@ -242,10 +231,9 @@ public class PlayerService extends MediaSessionService {
             .setId("youtube_player_session")
             .setCallback(new MediaSessionCallback())
             .build();
-        // FIXED: Removed the erroneous call to setMediaSession(mediaSession);
         Log.d(TAG, "[SESSION] ✓ MediaSession initialized");
     }
-    
+
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
@@ -288,10 +276,10 @@ public class PlayerService extends MediaSessionService {
             Log.w(TAG, "[LOAD] Already loading a stream, request ignored.");
             return;
         }
-        
+
         Log.d(TAG, "[LOAD] Loading: " + currentItem.getTitle());
         notifyStreamLoadingStarted(currentItem);
-        
+
         disposables.add(
             ExtractorHelper.getStreamInfo(currentItem.getServiceId(), currentItem.getUrl(), false)
                 .subscribeOn(Schedulers.io())
@@ -302,7 +290,7 @@ public class PlayerService extends MediaSessionService {
                 )
         );
     }
-    
+
     private void onStreamInfoLoaded(@NonNull StreamInfo streamInfo) {
         Log.d(TAG, "[LOAD] ✓ Stream info loaded for: " + streamInfo.getName());
         isLoadingStream.set(false);
@@ -319,14 +307,14 @@ public class PlayerService extends MediaSessionService {
         }
         handleStreamLoadError();
     }
-    
+
     private void prepareAndPlayMediaSource(@NonNull StreamInfo streamInfo) {
         try {
             MediaItem mediaItem = buildMediaItemFrom(streamInfo);
             if (mediaItem == null) {
                 throw new Exception("No playable URL found in StreamInfo.");
             }
-            
+
             Log.d(TAG, "[PLAYER] Preparing playback for URL: " + mediaItem.localConfiguration.uri);
             player.stop();
             player.clearMediaItems();
@@ -352,7 +340,7 @@ public class PlayerService extends MediaSessionService {
             .setTitle(streamInfo.getName())
             .setArtist(streamInfo.getUploaderName())
             .build();
-        
+
         MediaItem.Builder builder = new MediaItem.Builder()
             .setUri(streamUrl)
             .setMediaMetadata(metadata);
@@ -374,19 +362,19 @@ public class PlayerService extends MediaSessionService {
             Log.d(TAG, "[SELECT] Selected HLS stream.");
             return streamInfo.getHlsUrl();
         }
-        
+
         String videoUrl = selectBestVideoStream(streamInfo.getVideoStreams());
         if (videoUrl != null) {
             Log.d(TAG, "[SELECT] Selected video stream.");
             return videoUrl;
         }
-        
+
         String audioUrl = selectBestAudioStream(streamInfo.getAudioStreams());
         if (audioUrl != null) {
             Log.d(TAG, "[SELECT] Selected audio stream.");
             return audioUrl;
         }
-        
+
         Log.w(TAG, "[SELECT] No specific stream found, falling back to original URL.");
         return streamInfo.getUrl();
     }
@@ -394,7 +382,7 @@ public class PlayerService extends MediaSessionService {
     @Nullable
     private String selectBestVideoStream(@Nullable List<VideoStream> videoStreams) {
         if (videoStreams == null || videoStreams.isEmpty()) return null;
-        
+
         return videoStreams.stream()
             .filter(s -> s.getContent() != null && !s.getContent().isEmpty() && s.getHeight() <= MAX_VIDEO_HEIGHT)
             .max((s1, s2) -> Integer.compare(s1.getHeight(), s2.getHeight()))
@@ -412,7 +400,7 @@ public class PlayerService extends MediaSessionService {
             .map(AudioStream::getContent)
             .orElse(null);
     }
-    
+
     private void handleStreamLoadError() {
         if (playQueue != null && (playQueue.size() > 1 || playQueue.isRepeatEnabled())) {
             Log.d(TAG, "[ERROR] Loading failed, trying next item in queue.");
@@ -422,29 +410,55 @@ public class PlayerService extends MediaSessionService {
             stopSelf();
         }
     }
-    
-    private void updateNotification() {
-        if (currentItem == null) return;
-        
-        Intent intent = new Intent(this, PlayerActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(
-            this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-            
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+
+    // ✅ Made PUBLIC so PlayerActionReceiver can call it
+    public void updateNotification() {
+        if (currentItem == null || player == null) return;
+
+        int flags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+
+        Intent launchIntent = new Intent(this, PlayerActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, launchIntent, flags);
+
+        Intent seekBackIntent = new Intent(this, PlayerActionReceiver.class).setAction(ACTION_SEEK_BACK);
+        Intent seekForwardIntent = new Intent(this, PlayerActionReceiver.class).setAction(ACTION_SEEK_FORWARD);
+        Intent prevIntent = new Intent(this, PlayerActionReceiver.class).setAction(ACTION_PREV);
+        Intent playPauseIntent = new Intent(this, PlayerActionReceiver.class).setAction(ACTION_PLAY_PAUSE);
+        Intent nextIntent = new Intent(this, PlayerActionReceiver.class).setAction(ACTION_NEXT);
+        Intent qualityIntent = new Intent(this, PlayerActionReceiver.class).setAction(ACTION_QUALITY);
+
+        PendingIntent seekBackPending = PendingIntent.getBroadcast(this, 5, seekBackIntent, flags);
+        PendingIntent seekForwardPending = PendingIntent.getBroadcast(this, 6, seekForwardIntent, flags);
+        PendingIntent prevPending = PendingIntent.getBroadcast(this, 1, prevIntent, flags);
+        PendingIntent playPausePending = PendingIntent.getBroadcast(this, 2, playPauseIntent, flags);
+        PendingIntent nextPending = PendingIntent.getBroadcast(this, 3, nextIntent, flags);
+        PendingIntent qualityPending = PendingIntent.getBroadcast(this, 4, qualityIntent, flags);
+
+        int playPauseIcon = player.getPlayWhenReady() ? R.drawable.ic_pause : R.drawable.ic_play_arrow;
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle(currentItem.getTitle())
             .setContentText(currentItem.getUploader())
             .setSmallIcon(R.drawable.ic_play_arrow)
-            .setContentIntent(pendingIntent)
+            .setContentIntent(contentIntent)
             .setOngoing(true)
             .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-            .build();
-            
-        startForeground(NOTIFICATION_ID, notification);
+            .addAction(R.drawable.ic_skip_previous, "–10s", seekBackPending)
+            .addAction(R.drawable.ic_skip_previous, "Prev", prevPending)
+            .addAction(playPauseIcon, "Play", playPausePending)
+            .addAction(R.drawable.ic_skip_next, "Next", nextPending)
+            .addAction(R.drawable.ic_skip_next, "+10s", seekForwardPending)
+            .addAction(R.drawable.ic_settings, "Quality", qualityPending)
+            .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                .setShowActionsInCompactView(1, 2, 3)
+            );
+
+        startForeground(NOTIFICATION_ID, builder.build());
     }
 
     private void preloadUpcomingStreams() {
         if (playQueue == null || playQueue.isEmpty()) return;
-        
+
         preloadExecutor.execute(() -> {
             int currentIndex = playQueue.getIndex();
             for (int i = 1; i <= PRELOAD_AHEAD_COUNT; i++) {
@@ -487,7 +501,22 @@ public class PlayerService extends MediaSessionService {
             loadAndPlayCurrentItem();
         }
     }
-    
+
+    // ✅ Added missing seek methods
+    public void seekBack() {
+        if (player != null) {
+            player.seekTo(Math.max(0, player.getCurrentPosition() - 10000));
+            updateNotification();
+        }
+    }
+
+    public void seekForward() {
+        if (player != null) {
+            player.seekTo(player.getCurrentPosition() + 10000);
+            updateNotification();
+        }
+    }
+
     private void notifyQueueStateChanged() {
         if (streamInfoCallback != null && playQueue != null) {
             streamInfoCallback.onQueueStateChanged(playQueue.getIndex(), playQueue.size());
@@ -505,7 +534,7 @@ public class PlayerService extends MediaSessionService {
     private void notifyStreamLoadingFailed(@NonNull PlayQueueItem item, @NonNull Exception error) {
         if (streamInfoCallback != null) streamInfoCallback.onStreamLoadingFailed(item, error);
     }
-    
+
     public void setStreamInfoCallback(@Nullable StreamInfoCallback callback) {
         this.streamInfoCallback = callback;
     }
@@ -519,13 +548,18 @@ public class PlayerService extends MediaSessionService {
     public PlayQueue getPlayQueue() {
         return playQueue;
     }
-    
+
+    @Nullable
+    public StreamInfo getCurrentStreamInfo() {
+        return currentStreamInfo;
+    }
+
     @Nullable
     @Override
     public MediaSession onGetSession(@NonNull MediaSession.ControllerInfo controllerInfo) {
         return mediaSession;
     }
-    
+
     private class PlayerEventListener implements Player.Listener {
         @Override
         public void onPlaybackStateChanged(int playbackState) {

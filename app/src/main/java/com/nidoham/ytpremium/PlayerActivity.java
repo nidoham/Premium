@@ -1,5 +1,6 @@
 package com.nidoham.ytpremium;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.MediaMetadata;
 import androidx.media3.common.Player;
 import androidx.media3.common.util.UnstableApi;
 import androidx.media3.ui.PlayerView;
@@ -26,8 +29,11 @@ import com.nidoham.ytpremium.player.PlayerService;
 import com.nidoham.ytpremium.player.StreamInfoCallback;
 
 import org.schabi.newpipe.extractor.stream.StreamInfo;
+import org.schabi.newpipe.extractor.stream.VideoStream;
 import org.schabi.newpipe.queue.PlayQueueItem;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 @UnstableApi
@@ -39,7 +45,10 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
     private static final String TAG_PLAYER = "[PLAYER]";
     private static final String TAG_UI = "[UI]";
     private static final String TAG_LIFECYCLE = "[LIFECYCLE]";
-    
+
+    // Intent Action
+    public static final String ACTION_SHOW_QUALITY_DIALOG = "com.nidoham.ytpremium.action.SHOW_QUALITY_DIALOG";
+
     // Time update interval
     private static final long TIME_UPDATE_INTERVAL_MS = 1000;
 
@@ -49,7 +58,7 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
     private TextView txtTitle;
     private TextView txtMeta;
     private ImageButton btnPlayPause;
-    
+
     // Service and Binding
     private PlayerService playerService;
     private boolean isServiceBound = false;
@@ -68,7 +77,7 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
                 isServiceBound = true;
 
                 playerService.setStreamInfoCallback(PlayerActivity.this);
-                
+
                 if (playerService.getPlayer() != null) {
                     playerView.setPlayer(playerService.getPlayer());
                     setupPlayerListener(playerService.getPlayer());
@@ -103,11 +112,18 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         Log.d(TAG, TAG_LIFECYCLE + " onCreate");
-        
+
         initializeUI();
         startAndBindPlayerService();
     }
-    
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleIntentActions();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -116,6 +132,7 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
             playerView.setPlayer(playerService.getPlayer()); // Re-attach player to view
             startTimeUpdates();
         }
+        handleIntentActions();
     }
 
     @Override
@@ -140,15 +157,12 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
             playerView.setPlayer(null);
         }
     }
-    
+
     private void initializeUI() {
-        // FIXED: Find the PlayerView from the XML layout (included via include_player.xml)
-        // instead of creating it programmatically. This is the correct approach.
         playerView = findViewById(R.id.playerView);
         playerView.setUseController(false); // Using custom controls
 
-        // Find other UI components from included layouts
-        loadingIndicator = findViewById(R.id.loadingIndicator); 
+        loadingIndicator = findViewById(R.id.loadingIndicator);
         txtTitle = findViewById(R.id.txtTitle);
         txtMeta = findViewById(R.id.txtMeta);
         btnPlayPause = findViewById(R.id.btnPlayPause);
@@ -156,18 +170,16 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
         ImageButton btnPrevious = findViewById(R.id.btnPrevious);
         ImageButton btnBack = findViewById(R.id.btnBack);
 
-        // Set listeners
         btnPlayPause.setOnClickListener(v -> togglePlayPause());
         btnNext.setOnClickListener(v -> playNext());
         btnPrevious.setOnClickListener(v -> playPrevious());
         btnBack.setOnClickListener(v -> finish());
-        
+
         Log.d(TAG, TAG_UI + " UI components initialized.");
     }
-    
+
     private void startAndBindPlayerService() {
         Intent intent = new Intent(this, PlayerService.class);
-        // Pass the original intent extras to the service
         if (getIntent().hasExtra(PlayerService.EXTRA_PLAY_QUEUE)) {
             intent.putExtra(PlayerService.EXTRA_PLAY_QUEUE, getIntent().getSerializableExtra(PlayerService.EXTRA_PLAY_QUEUE));
             intent.putExtra(PlayerService.EXTRA_START_INDEX, getIntent().getIntExtra(PlayerService.EXTRA_START_INDEX, 0));
@@ -197,9 +209,9 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
         });
         Log.d(TAG, TAG_PLAYER + " Player listener configured.");
     }
-    
+
     // ===== StreamInfoCallback Implementation =====
-    
+
     @Override
     public void onStreamLoadingStarted(@NonNull PlayQueueItem queueItem) {
         Log.d(TAG, TAG_CALLBACK + " Stream loading started: " + queueItem.getTitle());
@@ -213,9 +225,6 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
     @Override
     public void onStreamInfoLoaded(@NonNull PlayQueueItem queueItem, @NonNull StreamInfo streamInfo) {
         Log.d(TAG, TAG_CALLBACK + " Stream info loaded: " + streamInfo.getName());
-        // FIXED: Removed all playback logic from the activity.
-        // The service handles playback internally. The activity's only job
-        // is to update the UI with the detailed metadata now available.
         runOnUiThread(() -> {
             loadingIndicator.setVisibility(View.GONE);
             txtTitle.setText(streamInfo.getName());
@@ -231,14 +240,14 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
             showToast("Failed to load: " + error.getMessage());
         });
     }
-    
+
     @Override
     public void onQueueStateChanged(int currentIndex, int totalItems) {
-        // This can be used to update a queue position indicator, e.g., "3 / 10"
+        // Optional: update queue position indicator
     }
 
     // ===== Playback Controls =====
-    
+
     private void togglePlayPause() {
         if (!isServiceBound) return;
         Player player = playerService.getPlayer();
@@ -260,7 +269,7 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
     }
 
     // ===== UI Updates =====
-    
+
     private void updateInitialUI() {
         if (!isServiceBound) return;
         PlayQueueItem item = playerService.getPlayQueue().getItem();
@@ -270,32 +279,117 @@ public class PlayerActivity extends AppCompatActivity implements StreamInfoCallb
         }
         updatePlayerState();
     }
-    
+
     private void updatePlayerState() {
         if (!isServiceBound || playerService.getPlayer() == null) return;
-        
+
         Player player = playerService.getPlayer();
         updatePlayPauseButton(player.isPlaying());
-        
+
         boolean isBuffering = player.getPlaybackState() == Player.STATE_BUFFERING;
         loadingIndicator.setVisibility(isBuffering ? View.VISIBLE : View.GONE);
     }
-    
+
     private void updatePlayPauseButton(boolean isPlaying) {
         btnPlayPause.setImageResource(isPlaying ? R.drawable.ic_pause : R.drawable.ic_play_arrow);
     }
-    
+
     // ===== Time Management =====
-    
+
     private void startTimeUpdates() {
         stopTimeUpdates(); // Ensure no duplicates
         timeUpdateHandler.post(timeUpdateRunnable);
         Log.d(TAG, TAG_UI + " Time updates started.");
     }
-    
+
     private void stopTimeUpdates() {
         timeUpdateHandler.removeCallbacks(timeUpdateRunnable);
         Log.d(TAG, TAG_UI + " Time updates stopped.");
+    }
+
+    // ===== Quality Selection =====
+
+    private void handleIntentActions() {
+        if (ACTION_SHOW_QUALITY_DIALOG.equals(getIntent().getAction())) {
+            showQualitySelectionDialog();
+            getIntent().setAction(null); // Consume the action
+        }
+    }
+
+    private void showQualitySelectionDialog() {
+        if (!isServiceBound || playerService == null) {
+            showToast("Player not ready.");
+            return;
+        }
+
+        StreamInfo currentInfo = getCurrentStreamInfo();
+        if (currentInfo == null || currentInfo.getVideoStreams() == null || currentInfo.getVideoStreams().isEmpty()) {
+            showToast("No video streams available.");
+            return;
+        }
+
+        List<VideoStream> videoStreams = currentInfo.getVideoStreams();
+        List<String> qualityLabels = new ArrayList<>();
+        List<VideoStream> selectableStreams = new ArrayList<>();
+
+        videoStreams.stream()
+            .filter(stream -> stream.getContent() != null && !stream.getContent().isEmpty())
+            .sorted((s1, s2) -> Integer.compare(s2.getHeight(), s1.getHeight()))
+            .forEach(stream -> {
+                String label = stream.getHeight() + "p";
+                if (!qualityLabels.contains(label)) {
+                    qualityLabels.add(label);
+                    selectableStreams.add(stream);
+                }
+            });
+
+        if (qualityLabels.isEmpty()) {
+            showToast("No playable video streams found.");
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+            .setTitle("Select Quality")
+            .setItems(qualityLabels.toArray(new String[0]), (dialog, which) -> {
+                VideoStream selected = selectableStreams.get(which);
+                changeVideoQuality(selected);
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    @Nullable
+    private StreamInfo getCurrentStreamInfo() {
+        return playerService != null ? playerService.getCurrentStreamInfo() : null;
+    }
+
+    private void changeVideoQuality(@NonNull VideoStream selectedStream) {
+        if (!isServiceBound || playerService == null) return;
+
+        StreamInfo currentInfo = getCurrentStreamInfo();
+        if (currentInfo == null) return;
+
+        MediaMetadata metadata = new MediaMetadata.Builder()
+            .setTitle(currentInfo.getName())
+            .setArtist(currentInfo.getUploaderName())
+            .build();
+
+        MediaItem mediaItem = new MediaItem.Builder()
+            .setUri(selectedStream.getContent())
+            .setMediaMetadata(metadata)
+            .build();
+
+        Player player = playerService.getPlayer();
+        if (player != null) {
+            long currentPosition = player.getCurrentPosition();
+            player.stop();
+            player.clearMediaItems();
+            player.setMediaItem(mediaItem);
+            player.prepare();
+            player.seekTo(currentPosition);
+            player.setPlayWhenReady(true);
+            showToast("Switched to " + selectedStream.getHeight() + "p");
+        }
     }
 
     // ===== Utility =====
