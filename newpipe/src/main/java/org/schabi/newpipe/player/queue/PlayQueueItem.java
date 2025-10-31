@@ -1,4 +1,4 @@
-package org.schabi.newpipe.queue;
+package org.schabi.newpipe.player.queue;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

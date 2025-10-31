@@ -40,8 +40,6 @@ import org.schabi.newpipe.extractor.search.SearchInfo;
 import org.schabi.newpipe.extractor.stream.StreamInfo;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.stream.VideoStream;
-import org.schabi.newpipe.queue.PlayQueue;
-import org.schabi.newpipe.queue.PlayQueueItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,6 +50,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
+import org.schabi.newpipe.player.queue.PlayQueueItem;
+import org.schabi.newpipe.player.queue.PlayQueue;
 
 /**
  * শর্টস ফ্র্যাগমেন্ট - YouTube Shorts স্টাইলে ভার্টিক্যাল ভিডিও প্লেয়ার।

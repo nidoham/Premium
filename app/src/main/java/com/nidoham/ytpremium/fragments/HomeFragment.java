@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.nidoham.ytpremium.R;
 import com.nidoham.ytpremium.adapter.StreamsAdapter;
 import com.nidoham.ytpremium.databinding.FragmentHomeBinding;
-import com.nidoham.ytpremium.player.PlayerService;
+import com.nidoham.ytpremium.player.service.PlayerService;
 import com.nidoham.ytpremium.prompt.KioskList;
 import com.nidoham.ytpremium.util.Kiosk;
 
@@ -37,11 +37,11 @@ import java.util.List;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import org.schabi.newpipe.queue.PlayQueueItem;
-import org.schabi.newpipe.queue.PlayQueue;
 import android.content.Intent;
 import com.nidoham.ytpremium.PlayerActivity;
 import com.google.android.material.snackbar.Snackbar;
+import org.schabi.newpipe.player.queue.PlayQueueItem;
+import org.schabi.newpipe.player.queue.PlayQueue;
 
 /**
  * হোম ফ্র্যাগমেন্ট - ক্যাটাগরি ভিত্তিক ভিডিও সার্চ এবং প্রদর্শন করে।
@@ -401,7 +401,6 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getContext(), PlayerActivity.class);
             // Use the correct keys from PlayerService
             intent.putExtra(PlayerService.EXTRA_PLAY_QUEUE, queue);
-            intent.putExtra(PlayerService.EXTRA_START_INDEX, 0);
         
         startActivity(intent);
         } catch (Exception e) {

@@ -1,256 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content"
-	android:orientation="vertical"
-	android:background="@color/youtube_background_black">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:orientation="vertical"
-		android:paddingHorizontal="16dp"
-		android:paddingTop="16dp"
-		android:paddingBottom="12dp">
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lineSpacingExtra="2dp"
+        android:maxLines="2"
+        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+        android:textColor="@color/on_background"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Sample Video Title That Is Very Long" />
 
-		<TextView
-			android:id="@+id/txtTitle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:ellipsize="end"
-			android:lineSpacingExtra="2dp"
-			android:maxLines="2"
-			android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-			android:textColor="@color/youtube_text_primary"
-			android:textSize="16sp"
-			android:textStyle="bold"
-			tools:text="Sample Video Title That Is Very Long And Continues Here" />
+    <TextView
+        android:id="@+id/txtMeta"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/on_surface_variant"
+        android:textSize="12sp"
+        tools:text="1.2M views • 2 days ago" />
 
-		<TextView
-			android:id="@+id/txtMeta"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:textColor="@color/youtube_text_secondary"
-			android:textSize="12sp"
-			tools:text="1.2M views • 2 days ago" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/channelInfoContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground">
 
-	</LinearLayout>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imgChannelAvatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/channel_avatar"
+            android:src="@drawable/ic_avatar_placeholder"
+            app:shapeAppearanceOverlay="@style/CircularImageView"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="@color/outline_variant"
+            app:strokeWidth="1dp" />
 
-	<HorizontalScrollView
-		android:id="@+id/actionButtonsScroll"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:paddingHorizontal="12dp"
-		android:paddingVertical="8dp"
-		android:scrollbars="none"
-		android:fillViewport="false">
+        <LinearLayout
+            android:id="@+id/channelTextContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@id/imgChannelAvatar"
+            app:layout_constraintBottom_toBottomOf="@id/imgChannelAvatar"
+            app:layout_constraintStart_toEndOf="@id/imgChannelAvatar"
+            app:layout_constraintEnd_toStartOf="@id/btnSubscribe">
 
-		<LinearLayout
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="horizontal"
-			android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/txtChannelName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/on_background"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Channel Name" />
 
-			<LinearLayout
-				android:id="@+id/btnLike"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:background="@drawable/action_button_background"
-				android:paddingStart="16dp"
-				android:paddingEnd="12dp"
-				android:paddingVertical="10dp"
-				android:gravity="center_vertical"
-				android:clickable="true"
-				android:focusable="true"
-				android:minWidth="80dp">
+            <TextView
+                android:id="@+id/txtSubscriberCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="@color/on_surface_variant"
+                android:textSize="11sp"
+                tools:text="1.5M subscribers" />
+        </LinearLayout>
 
-				<ImageView
-					android:id="@+id/imgLikeIcon"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/ic_thumb_up"
-					android:contentDescription="@string/play_pause_button"
-					app:tint="@color/youtube_icon_white" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubscribe"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:minWidth="100dp"
+            android:maxWidth="120dp"
+            android:text="@string/subscribe"
+            android:textColor="@color/on_primary"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/subscription_active"
+            app:cornerRadius="20dp"
+            app:rippleColor="@color/on_primary_container"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-				<TextView
-					android:id="@+id/txtLikeCount"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="8dp"
-					android:textColor="@color/youtube_text_primary"
-					android:textSize="13sp"
-					android:textStyle="bold"
-					tools:text="1.2K" />
-
-				<android.view.View
-					android:layout_width="1dp"
-					android:layout_height="18dp"
-					android:layout_marginStart="12dp"
-					android:background="@color/youtube_divider" />
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:id="@+id/btnDislike"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:background="@drawable/action_button_background"
-				android:paddingHorizontal="16dp"
-				android:layout_marginHorizontal="5dp"
-				android:paddingVertical="10dp"
-				android:gravity="center_vertical"
-				android:clickable="true"
-				android:focusable="true"
-				android:layout_marginStart="-1dp">
-
-				<ImageView
-					android:id="@+id/imgDislikeIcon"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/ic_thumb_down"
-					android:contentDescription="@string/play_pause_button"
-					app:tint="@color/youtube_icon_white" />
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:id="@+id/btnShare"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:background="@drawable/action_button_background"
-				android:paddingHorizontal="16dp"
-				android:paddingVertical="10dp"
-				android:layout_marginHorizontal="5dp"
-				android:gravity="center_vertical"
-				android:clickable="true"
-				android:focusable="true"
-				android:layout_marginStart="8dp"
-				android:minWidth="80dp">
-
-				<ImageView
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/ic_share"
-					android:contentDescription="@string/share"
-					app:tint="@color/youtube_icon_white" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="8dp"
-					android:text="@string/share"
-					android:textColor="@color/youtube_text_primary"
-					android:textSize="13sp"
-					android:textStyle="bold" />
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:id="@+id/btnDownload"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:background="@drawable/action_button_background"
-				android:paddingHorizontal="16dp"
-				android:paddingVertical="10dp"
-				android:gravity="center_vertical"
-				android:clickable="true"
-				android:layout_marginHorizontal="5dp"
-				android:focusable="true"
-				android:layout_marginStart="8dp"
-				android:minWidth="80dp">
-
-				<ImageView
-					android:id="@+id/imgDownloadIcon"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/ic_download"
-					android:contentDescription="@string/download"
-					app:tint="@color/youtube_icon_white" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="8dp"
-					android:text="@string/download"
-					android:textColor="@color/youtube_text_primary"
-					android:textSize="13sp"
-					android:textStyle="bold" />
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:id="@+id/btnSave"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:background="@drawable/action_button_background"
-				android:paddingHorizontal="16dp"
-				android:paddingVertical="10dp"
-				android:gravity="center_vertical"
-				android:clickable="true"
-				android:focusable="true"
-				android:layout_marginHorizontal="5dp"
-				android:layout_marginStart="8dp"
-				android:minWidth="80dp">
-
-				<ImageView
-					android:id="@+id/imgSaveIcon"
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/ic_bookmark"
-					android:contentDescription="@string/save"
-					app:tint="@color/youtube_icon_white" />
-
-				<TextView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="8dp"
-					android:text="@string/save"
-					android:textColor="@color/youtube_text_primary"
-					android:textSize="13sp"
-					android:textStyle="bold" />
-
-			</LinearLayout>
-
-			<LinearLayout
-				android:id="@+id/btnMoreActions"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:orientation="horizontal"
-				android:background="@drawable/action_button_background"
-				android:paddingHorizontal="16dp"
-				android:paddingVertical="10dp"
-				android:gravity="center_vertical"
-				android:clickable="true"
-				android:layout_marginHorizontal="5dp"
-				android:focusable="true"
-				android:layout_marginStart="8dp">
-
-				<ImageView
-					android:layout_width="20dp"
-					android:layout_height="20dp"
-					android:src="@drawable/ic_more_horiz"
-					android:contentDescription="@string/settings_button"
-					app:tint="@color/youtube_icon_white" />
-
-			</LinearLayout>
-
-		</LinearLayout>
-
-	</HorizontalScrollView>
-
-	<android.view.View
-		android:layout_width="match_parent"
-		android:layout_height="1dp"
-		android:layout_marginTop="8dp"
-		android:background="@color/youtube_divider" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

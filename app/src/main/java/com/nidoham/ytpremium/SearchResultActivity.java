@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.nidoham.ytpremium.R;
 import com.nidoham.ytpremium.adapter.StreamsAdapter;
 import com.nidoham.ytpremium.databinding.ActivitySearchResultBinding;
-import com.nidoham.ytpremium.player.PlayerService;
+import com.nidoham.ytpremium.player.service.PlayerService;
 import com.nidoham.ytpremium.util.SearchFilter;
 
 import java.util.ArrayList;
@@ -35,8 +35,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import org.schabi.newpipe.queue.PlayQueue;
-import org.schabi.newpipe.queue.PlayQueueItem;
+import org.schabi.newpipe.player.queue.PlayQueue;
+import org.schabi.newpipe.player.queue.PlayQueueItem;
 
 public class SearchResultActivity extends AppCompatActivity {
 
@@ -101,7 +101,6 @@ public class SearchResultActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
                     // Use the correct keys from PlayerService
                     intent.putExtra(PlayerService.EXTRA_PLAY_QUEUE, queue);
-                    intent.putExtra(PlayerService.EXTRA_START_INDEX, 0);
         
                     startActivity(intent);
                 } catch (Exception e) {
