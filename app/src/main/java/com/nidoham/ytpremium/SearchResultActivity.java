@@ -17,6 +17,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.nidoham.ytpremium.R;
 import com.nidoham.ytpremium.adapter.StreamsAdapter;
 import com.nidoham.ytpremium.databinding.ActivitySearchResultBinding;
+import com.nidoham.ytpremium.player.PlayerService;
 import com.nidoham.ytpremium.util.SearchFilter;
 
 import java.util.ArrayList;
@@ -98,7 +99,10 @@ public class SearchResultActivity extends AppCompatActivity {
                     PlayQueue queue = new PlayQueue(0, itemList, false);
 
                     Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
-                    intent.putExtra("queue", queue);
+                    // Use the correct keys from PlayerService
+                    intent.putExtra(PlayerService.EXTRA_PLAY_QUEUE, queue);
+                    intent.putExtra(PlayerService.EXTRA_START_INDEX, 0);
+        
                     startActivity(intent);
                 } catch (Exception e) {
                     Snackbar.make(binding.getRoot(), "ভিডিও চালানো যাচ্ছে না: " + e.getMessage(), Snackbar.LENGTH_LONG).show();

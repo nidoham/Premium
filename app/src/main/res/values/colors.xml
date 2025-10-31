@@ -1,5 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Primary Brand Colors -->
+    <color name="md_theme_primary">#FF0000</color>
+    <color name="md_theme_primary_variant">#CC0000</color>
+    <color name="md_theme_on_primary">#FFFFFF</color>
+    
+    <!-- Secondary Colors -->
+    <color name="md_theme_secondary">#AAAAAA</color>
+    <color name="md_theme_secondary_variant">#909090</color>
+    <color name="md_theme_on_secondary">#000000</color>
+    
+    <!-- Background Colors - Dark Theme -->
+    <color name="md_theme_background">#0F0F0F</color>
+    <color name="md_theme_background_variant">#181818</color>
+    <color name="md_theme_background_elevated">#212121</color>
+    <color name="md_theme_on_background">#FFFFFF</color>
+    
+    <!-- Surface Colors -->
+    <color name="md_theme_surface">#181818</color>
+    <color name="md_theme_surface_variant">#212121</color>
+    <color name="md_theme_surface_elevated">#282828</color>
+    <color name="md_theme_on_surface">#FFFFFF</color>
+    <color name="md_theme_on_surface_variant">#AAAAAA</color>
+    
+    <!-- Text Colors -->
+    <color name="md_theme_text_primary">#FFFFFF</color>
+    <color name="md_theme_text_secondary">#AAAAAA</color>
+    <color name="md_theme_text_tertiary">#717171</color>
+    <color name="md_theme_text_disabled">#4D4D4D</color>
+    
+    <!-- Navigation & Bottom Bar -->
+    <color name="md_theme_navigation_background">#0F0F0F</color>
+    <color name="md_theme_navigation_item_selected">#FFFFFF</color>
+    <color name="md_theme_navigation_item_unselected">#AAAAAA</color>
+    
+    <!-- Video Player -->
+    <color name="md_theme_player_background">#000000</color>
+    <color name="md_theme_player_controls">#FFFFFF</color>
+    <color name="md_theme_player_progress">#FF0000</color>
+    <color name="md_theme_player_buffer">#717171</color>
+    
+    <!-- Buttons & Icons -->
+    <color name="md_theme_icon_primary">#FFFFFF</color>
+    <color name="md_theme_icon_secondary">#AAAAAA</color>
+    <color name="md_theme_icon_like">#FF0000</color>
+    <color name="md_theme_icon_dislike">#FFFFFF</color>
+    
+    <!-- Cards & Thumbnails -->
+    <color name="md_theme_card_background">#181818</color>
+    <color name="md_theme_thumbnail_placeholder">#282828</color>
+    
+    <!-- Dividers & Borders -->
+    <color name="md_theme_divider">#303030</color>
+    <color name="md_theme_border">#303030</color>
+    
+    <!-- Overlays & Scrims -->
+    <color name="md_theme_scrim">#80000000</color>
+    <color name="md_theme_overlay_light">#1AFFFFFF</color>
+    <color name="md_theme_overlay_dark">#1A000000</color>
+    
+    <!-- Status & Indicators -->
+    <color name="md_theme_error">#CF6679</color>
+    <color name="md_theme_success">#4CAF50</color>
+    <color name="md_theme_warning">#FFA726</color>
+    <color name="md_theme_info">#29B6F6</color>
+    
+    <!-- Live & Special States -->
+    <color name="md_theme_live_badge">#FF0000</color>
+    <color name="md_theme_live_text">#FFFFFF</color>
+    <color name="md_theme_new_badge">#065FD4</color>
+    
+    <!-- Shimmer Loading Effect -->
+    <color name="md_theme_shimmer_base">#1A1A1A</color>
+    <color name="md_theme_shimmer_highlight">#2A2A2A</color>
+    
+    <!-- Subscription Button -->
+    <color name="md_theme_subscribe_button">#CC0000</color>
+    <color name="md_theme_subscribe_button_pressed">#A00000</color>
+    <color name="md_theme_subscribed_button">#303030</color>
+    
+    <!-- Comments Section -->
+    <color name="md_theme_comment_background">#212121</color>
+    <color name="md_theme_comment_highlighted">#282828</color>
+    
+    <!-- Search -->
+    <color name="md_theme_search_background">#121212</color>
+    <color name="md_theme_search_hint">#717171</color>
+    
+    <!-- Chips & Tags -->
+    <color name="md_theme_chip_background">#303030</color>
+    <color name="md_theme_chip_selected">#F1F1F1</color>
+    <color name="md_theme_chip_text">#FFFFFF</color>
+    <color name="md_theme_chip_text_selected">#0F0F0F</color>
+    
+    <!-- Progress Bars -->
+    <color name="md_theme_progress_watched">#FF0000</color>
+    <color name="md_theme_progress_unwatched">#717171</color>
+    
+    <!-- Ripple Effects -->
+    <color name="md_theme_ripple">#33FFFFFF</color>
+    <color name="md_theme_ripple_dark">#1AFFFFFF</color>
+    
+    
+    
+    
+    <!-- Depracated -->
     <!-- YouTube Brand Colors -->
     <color name="youtube_red">#FF0000</color>
     <color name="youtube_red_dark">#CC0000</color>

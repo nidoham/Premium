@@ -1,33 +1,577 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <style name="PlayerIconButton">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:padding">8dp</item>
-        <item name="android:scaleType">centerInside</item>
-        <item name="tint">@color/youtube_icon_white</item>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    
+    <!-- ========================================= -->
+    <!-- টুলবার এবং অ্যাপবার স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/md_theme_background</item>
+        <item name="titleTextColor">@color/md_theme_text_primary</item>
+        <item name="subtitleTextColor">@color/md_theme_text_secondary</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+    
+    <style name="Widget.App.AppBar" parent="Widget.Material3.AppBarLayout">
+        <item name="android:background">@color/md_theme_background</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- বটম নেভিগেশন স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.BottomNav" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/md_theme_navigation_background</item>
+        <item name="itemIconTint">@color/bottom_navigation_selector</item>
+        <item name="itemTextColor">@color/bottom_navigation_selector</item>
+        <item name="itemRippleColor">@color/md_theme_ripple</item>
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- বাটন স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Button" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/md_theme_on_primary</item>
+        <item name="backgroundTint">@color/md_theme_primary</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.025</item>
+    </style>
+    
+    <style name="Widget.App.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="strokeColor">@color/md_theme_border</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+    <style name="Widget.App.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="cornerRadius">2dp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+    <!-- সাবস্ক্রাইব বাটন স্টাইল -->
+    <style name="Widget.App.Button.Subscribe" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/md_theme_on_primary</item>
+        <item name="backgroundTint">@color/md_theme_subscribe_button</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.025</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+    
+    <!-- সাবস্ক্রাইবড বাটন স্টাইল -->
+    <style name="Widget.App.Button.Subscribed" parent="Widget.Material3.Button.TonalButton">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="backgroundTint">@color/md_theme_subscribed_button</item>
+        <item name="cornerRadius">18dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.025</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+    
+    <!-- আইকন বাটন -->
+    <style name="Widget.App.IconButton" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">@color/md_theme_icon_primary</item>
+        <item name="rippleColor">@color/md_theme_ripple</item>
+    </style>
+    
+    <style name="Widget.App.IconButton.Secondary" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">@color/md_theme_icon_secondary</item>
+        <item name="rippleColor">@color/md_theme_ripple</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- কার্ড স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/md_theme_card_background</item>
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">0dp</item>
+        <item name="rippleColor">@color/md_theme_ripple_dark</item>
+    </style>
+    
+    <!-- ভিডিও আইটেম কার্ড -->
+    <style name="Widget.App.Card.Video" parent="Widget.App.Card">
+        <item name="cardBackgroundColor">@color/md_theme_background</item>
+    </style>
+    
+    <!-- কমেন্ট কার্ড -->
+    <style name="Widget.App.Card.Comment" parent="Widget.App.Card">
+        <item name="cardBackgroundColor">@color/md_theme_comment_background</item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
+    
+    <!-- হাইলাইট কমেন্ট কার্ড -->
+    <style name="Widget.App.Card.CommentHighlight" parent="Widget.App.Card.Comment">
+        <item name="cardBackgroundColor">@color/md_theme_comment_highlighted</item>
+    </style>
+    
+    <!-- চ্যানেল কার্ড -->
+    <style name="Widget.App.Card.Channel" parent="Widget.App.Card">
+        <item name="cardBackgroundColor">@color/md_theme_surface</item>
+        <item name="cardCornerRadius">12dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- চিপ স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Chip" parent="Widget.Material3.Chip.Suggestion">
+        <item name="chipBackgroundColor">@color/md_theme_chip_background</item>
+        <item name="android:textColor">@color/md_theme_chip_text</item>
+        <item name="chipCornerRadius">8dp</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="rippleColor">@color/md_theme_ripple</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <!-- সিলেক্টেড চিপ -->
+    <style name="Widget.App.Chip.Selected" parent="Widget.App.Chip">
+        <item name="chipBackgroundColor">@color/md_theme_chip_selected</item>
+        <item name="android:textColor">@color/md_theme_chip_text_selected</item>
+    </style>
+    
+    <!-- ফিল্টার চিপ -->
+    <style name="Widget.App.Chip.Filter" parent="Widget.Material3.Chip.Filter">
+        <item name="chipBackgroundColor">@color/md_theme_chip_background</item>
+        <item name="android:textColor">@color/md_theme_chip_text</item>
+        <item name="chipCornerRadius">8dp</item>
+        <item name="checkedIconVisible">false</item>
     </style>
 
-    <style name="PlayerTimeText">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/youtube_text_primary</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:minWidth">42dp</item>
-    </style>
-
-    <style name="PlayerControlButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">36dp</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingHorizontal">10dp</item>
-        <item name="android:textColor">@color/youtube_text_primary</item>
-        <item name="android:textSize">13sp</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    <!-- Chip Styles -->
+    <style name="Widget.App.Chip.Category" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="android:textColor">@color/selector_chip_text</item>
+        <item name="chipBackgroundColor">@color/selector_chip_background</item>
+        <item name="chipStrokeWidth">0dp</item>
+        <item name="chipMinHeight">32dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="chipCornerRadius">@dimen/chip_corner_radius</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="ensureMinTouchTargetSize">true</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
+    
+    <!-- ========================================= -->
+    <!-- টেক্সট ইনপুট স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.TextInput" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/md_theme_border</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="hintTextColor">@color/md_theme_text_tertiary</item>
+        <item name="android:textColorHint">@color/md_theme_text_tertiary</item>
+    </style>
+    
+    <style name="Widget.App.TextInput.Filled" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/md_theme_surface</item>
+        <item name="hintTextColor">@color/md_theme_text_tertiary</item>
+        <item name="android:textColorHint">@color/md_theme_text_tertiary</item>
+    </style>
+    
+    <!-- সার্চ বার -->
+    <style name="Widget.App.SearchBar" parent="Widget.Material3.TextInputLayout.FilledBox">
+        <item name="boxBackgroundColor">@color/md_theme_search_background</item>
+        <item name="hintTextColor">@color/md_theme_search_hint</item>
+        <item name="android:textColorHint">@color/md_theme_search_hint</item>
+        <item name="boxCornerRadiusTopStart">4dp</item>
+        <item name="boxCornerRadiusTopEnd">4dp</item>
+        <item name="boxCornerRadiusBottomStart">4dp</item>
+        <item name="boxCornerRadiusBottomEnd">4dp</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+    
+    <style name="Widget.App.EditText" parent="Widget.Material3.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- টেক্সট অ্যাপিয়ারেন্স স্টাইল -->
+    <!-- ========================================= -->
+    
+    <!-- ভিডিও টাইটেল -->
+    <style name="Text.VideoTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:ellipsize">end</item>
+        <item name="lineHeight">20sp</item>
+    </style>
+    
+    <!-- বড় ভিডিও টাইটেল -->
+    <style name="Text.VideoTitle.Large" parent="Text.VideoTitle">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="lineHeight">24sp</item>
+    </style>
+    
+    <!-- চ্যানেল নাম -->
+    <style name="Text.ChannelName" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/md_theme_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    
+    <!-- ভিডিও মেটাডেটা -->
+    <style name="Text.Metadata" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/md_theme_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    
+    <!-- পেজ টাইটেল -->
+    <style name="Text.PageTitle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- সেকশন টাইটেল -->
+    <style name="Text.SectionTitle" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- কমেন্ট লেখক -->
+    <style name="Text.CommentAuthor" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- কমেন্ট টেক্সট -->
+    <style name="Text.CommentText" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="lineHeight">20sp</item>
+    </style>
+    
+    <!-- কমেন্ট তারিখ -->
+    <style name="Text.CommentDate" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/md_theme_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    
+    <!-- ব্যাজ টেক্সট -->
+    <style name="Text.Badge" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textColor">@color/md_theme_live_text</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.05</item>
+    </style>
+    
+    <!-- ডিউরেশন টেক্সট -->
+    <style name="Text.Duration" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textColor">@color/md_theme_on_surface</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- বডি টেক্সট -->
+    <style name="Text.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    
+    <!-- ক্যাপশন টেক্সট -->
+    <style name="Text.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textColor">@color/md_theme_text_secondary</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- প্রগ্রেস বার স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Progress" parent="Widget.Material3.LinearProgressIndicator">
+        <item name="trackColor">@color/md_theme_progress_unwatched</item>
+        <item name="indicatorColor">@color/md_theme_progress_watched</item>
+        <item name="trackThickness">3dp</item>
+        <item name="trackCornerRadius">0dp</item>
+    </style>
+    
+    <style name="Widget.App.Progress.Circular" parent="Widget.Material3.CircularProgressIndicator">
+        <item name="indicatorColor">@color/md_theme_primary</item>
+        <item name="trackColor">@color/md_theme_progress_unwatched</item>
+    </style>
+    
+    <!-- প্লেয়ার প্রগ্রেস -->
+    <style name="Widget.App.Progress.Player" parent="Widget.Material3.LinearProgressIndicator">
+        <item name="trackColor">@color/md_theme_player_buffer</item>
+        <item name="indicatorColor">@color/md_theme_player_progress</item>
+        <item name="trackThickness">4dp</item>
+        <item name="trackCornerRadius">2dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- ব্যাজ স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Badge" parent="">
+        <item name="android:background">@color/md_theme_live_badge</item>
+        <item name="android:textColor">@color/md_theme_live_text</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+    
+    <!-- নিউ ব্যাজ -->
+    <style name="Widget.App.Badge.New" parent="Widget.App.Badge">
+        <item name="android:background">@color/md_theme_new_badge</item>
+    </style>
+    
+    <!-- ডিউরেশন ব্যাজ -->
+    <style name="Widget.App.Badge.Duration" parent="">
+        <item name="android:background">@color/md_theme_scrim</item>
+        <item name="android:textColor">@color/md_theme_on_surface</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- ফ্লোটিং অ্যাকশন বাটন স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.FAB" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="backgroundTint">@color/md_theme_primary</item>
+        <item name="tint">@color/md_theme_on_primary</item>
+        <item name="android:elevation">6dp</item>
+        <item name="rippleColor">@color/md_theme_ripple</item>
+    </style>
+    
+    <style name="Widget.App.FAB.Small" parent="Widget.Material3.FloatingActionButton.Small.Primary">
+        <item name="backgroundTint">@color/md_theme_primary</item>
+        <item name="tint">@color/md_theme_on_primary</item>
+        <item name="android:elevation">6dp</item>
+    </style>
+    
+    <style name="Widget.App.FAB.Extended" parent="Widget.Material3.ExtendedFloatingActionButton.Primary">
+        <item name="backgroundTint">@color/md_theme_primary</item>
+        <item name="android:textColor">@color/md_theme_on_primary</item>
+        <item name="iconTint">@color/md_theme_on_primary</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- শিমার লোডিং স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Shimmer" parent="">
+        <item name="android:background">@color/md_theme_shimmer_base</item>
+    </style>
+    
+    <style name="Widget.App.Shimmer.Thumbnail" parent="Widget.App.Shimmer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">200dp</item>
+    </style>
+    
+    <style name="Widget.App.Shimmer.Text" parent="Widget.App.Shimmer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">16dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- ডিভাইডার স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Divider" parent="Widget.Material3.MaterialDivider">
+        <item name="android:background">@color/md_theme_divider</item>
+        <item name="dividerColor">@color/md_theme_divider</item>
+    </style>
+    
+    <style name="Widget.App.Divider.Horizontal" parent="Widget.App.Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+    </style>
+    
+    <style name="Widget.App.Divider.Vertical" parent="Widget.App.Divider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- প্লেয়ার স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Player" parent="">
+        <item name="android:background">@color/md_theme_player_background</item>
+    </style>
+    
+    <style name="Widget.App.Player.Button" parent="Widget.Material3.Button.IconButton">
+        <item name="iconTint">@color/md_theme_player_controls</item>
+        <item name="rippleColor">@color/md_theme_ripple</item>
+    </style>
+    
+    <style name="Widget.App.Player.SeekBar" parent="">
+        <item name="android:progressTint">@color/md_theme_player_progress</item>
+        <item name="android:progressBackgroundTint">@color/md_theme_player_buffer</item>
+        <item name="android:thumbTint">@color/md_theme_player_progress</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- রিসাইক্লার ভিউ স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.RecyclerView" parent="">
+        <item name="android:background">@color/md_theme_background</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- ইমেজ ভিউ স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Image" parent="">
+        <item name="android:scaleType">centerCrop</item>
+    </style>
+    
+    <!-- থাম্বনেইল -->
+    <style name="Widget.App.Image.Thumbnail" parent="Widget.App.Image">
+        <item name="android:background">@color/md_theme_thumbnail_placeholder</item>
+    </style>
+    
+    <!-- অ্যাভাটার -->
+    <style name="Widget.App.Image.Avatar" parent="Widget.App.Image">
+        <item name="android:background">@color/md_theme_surface</item>
+    </style>
+    
+    <!-- চ্যানেল অ্যাভাটার -->
+    <style name="Widget.App.Image.Avatar.Channel" parent="Widget.App.Image.Avatar">
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+    </style>
+    
+    <!-- বড় চ্যানেল অ্যাভাটার -->
+    <style name="Widget.App.Image.Avatar.Large" parent="Widget.App.Image.Avatar">
+        <item name="android:layout_width">88dp</item>
+        <item name="android:layout_height">88dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- ট্যাব লেআউট স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.TabLayout" parent="Widget.Material3.TabLayout">
+        <item name="android:background">@color/md_theme_surface</item>
+        <item name="tabTextColor">@color/md_theme_text_secondary</item>
+        <item name="tabSelectedTextColor">@color/md_theme_text_primary</item>
+        <item name="tabIndicatorColor">@color/md_theme_primary</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabRippleColor">@color/md_theme_ripple</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- সুইচ স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Switch" parent="Widget.Material3.CompoundButton.Switch">
+        <item name="thumbTint">@color/md_theme_on_primary</item>
+        <item name="trackTint">@color/md_theme_primary</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- চেকবক্স স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.CheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/md_theme_primary</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- রেডিও বাটন স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="buttonTint">@color/md_theme_primary</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- স্লাইডার স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Slider" parent="Widget.Material3.Slider">
+        <item name="activeTrackColor">@color/md_theme_primary</item>
+        <item name="inactiveTrackColor">@color/md_theme_progress_unwatched</item>
+        <item name="thumbColor">@color/md_theme_primary</item>
+        <item name="trackHeight">4dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- স্ন্যাকবার স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Snackbar" parent="Widget.Material3.Snackbar">
+        <item name="android:background">@color/md_theme_surface_elevated</item>
+    </style>
+    
+    <style name="Widget.App.Snackbar.Text" parent="Widget.Material3.Snackbar.TextView">
+        <item name="android:textColor">@color/md_theme_text_primary</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- মেনু স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@color/md_theme_surface_elevated</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- লিস্ট আইটেম স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.ListItem" parent="">
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+    </style>
+    
+    <!-- ========================================= -->
+    <!-- স্ক্রিম/ওভারলে স্টাইল -->
+    <!-- ========================================= -->
+    
+    <style name="Widget.App.Scrim" parent="">
+        <item name="android:background">@color/md_theme_scrim</item>
+    </style>
+    
+    <style name="Widget.App.Overlay" parent="">
+        <item name="android:background">@color/md_theme_overlay_dark</item>
+    </style>
+
+    <!-- Dialog Animation Style -->
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/dialog_slide_up</item>
+        <item name="android:windowExitAnimation">@anim/dialog_slide_down</item>
+    </style>
+    
 </resources>

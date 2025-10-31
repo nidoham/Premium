@@ -1,0 +1,4 @@
+<resources>
+    <attr name="activeTrackColor" format="color" />
+    <attr name="inactiveTrackColor" format="color" />
+</resources>
