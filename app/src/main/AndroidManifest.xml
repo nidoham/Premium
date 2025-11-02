@@ -120,10 +120,7 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback" />
-            
-        <receiver
-            android:name=".player.PlayerActionReceiver"
-            android:exported="false" />
+
     </application>
 
 </manifest>
