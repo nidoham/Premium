@@ -146,7 +146,6 @@ fun MainScreen() {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             when (selectedTab) {
                 0 -> HomeScreen()

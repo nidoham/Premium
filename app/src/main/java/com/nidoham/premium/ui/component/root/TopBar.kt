@@ -38,9 +38,9 @@ fun TopBar(
     ) {
         // App Name
         Text(
-            text = "Extragram",
+            text = "Premium",
             style = MaterialTheme.typography.headlineSmall,
-            fontSize = 24.sp,
+            fontSize = 25.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
